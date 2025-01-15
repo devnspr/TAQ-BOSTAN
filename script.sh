@@ -1,9 +1,30 @@
 #!/bin/bash
 
+# New ASCII art signature:
+echo -e "\033[1;32m$$$$$$$$\\  $$$$$$\\   $$$$$$\\          $$$$$$$\\   $$$$$$\\   $$$$$$\\ $$$$$$$$\\  $$$$$$\\  $$\\   $$\\ "
+echo -e "\\__$$  __|$$  __$$\\ $$  __$$\\         $$  __$$\\ $$  __$$\\ $$  __$$\\\\__$$  __|$$  __$$\\ $$$\\  $$ |"
+echo -e "   $$ |   $$ /  $$ |$$ /  $$ |        $$ |  $$ |$$ /  $$ |$$ /  \\__|  $$ |   $$ /  $$ |$$$$\\ $$ |"
+echo -e "   $$ |   $$$$$$$$ |$$ |  $$ |$$$$$$\\ $$$$$$$\\ |$$ |  $$ |\\$$$$$$\\    $$ |   $$$$$$$$ |$$ $$\\$$ |"
+echo -e "   $$ |   $$  __$$ |$$ |  $$ |\\______|$$  __$$\\ $$ |  $$ | \\____$$\\   $$ |   $$  __$$ |$$ \\$$$$ |"
+echo -e "   $$ |   $$ |  $$ |$$ $$\\$$ |        $$ |  $$ |$$ |  $$ |$$\\   $$ |  $$ |   $$ |  $$ |$$ |\\$$$ |"
+echo -e "   $$ |   $$ |  $$ |\\$$$$$$ /         $$$$$$$  | $$$$$$  |\\$$$$$$  |  $$ |   $$ |  $$ |$$ | \\$$ |"
+echo -e "   \\__|   \\__|  \\__| \\___$$$\\         \\_______/  \\______/  \\______/   \\__|   \\__|  \\__|\\__|  \\__|"
+echo -e "                         \\___|                                                                   "
+echo -e "                                                                                                 "
+echo -e "                                                                                                 \033[0m"
+
+# Old signature:
 echo -e "\033[1;33m=========================================="
 echo -e "Created by Parsa in OPIran club https://t.me/OPIranClub"
 echo -e "Love Iran :)"
 echo -e "==========================================\033[0m"
+
+# Prompt the user before installing packages
+read -p "Do you want to start installing packages? (yes/no): " start_install
+if [[ "$start_install" != "yes" ]]; then
+    echo "Canceled by user."
+    exit 0
+fi
 
 function ask_yes_no() {
     local prompt="$1"
@@ -68,7 +89,7 @@ if [[ "$server_location" == "IRAN" || "$server_location" == "iran" ]]; then
 [Interface]
 PrivateKey = $IRAN_PRIV_KEY
 MTU = $mtu
-Address = fd00:85a3:1b2e::1/64
+Address = 2619:db8:85a3:1b2::1/64
 ListenPort = $wg_port
 EOF"
 
@@ -78,7 +99,7 @@ EOF"
 
 [Peer]
 PublicKey = ${foreign_pubs[i]}
-AllowedIPs = fd00:85a3:1b2e::${count_even}/128
+AllowedIPs = 2619:db8:85a3:1b2::${count_even}/128
 Endpoint = ${foreign_ips[i]}:$wg_port
 PersistentKeepalive = 25
 EOF"
@@ -92,7 +113,7 @@ EOF"
 
     echo -e "\033[1;32mWireGuard configuration for IRAN server is ready.\033[0m"
     echo -e "IRAN server public key: \033[1;37m${IRAN_PUB_KEY}\033[0m"
-    echo -e "Local IPv6 for IRAN server: \033[1;37mfd00:85a3:1b2e::1\033[0m"
+    echo -e "Local IPv6 for IRAN server: \033[1;37m2619:db8:85a3:1b2::1\033[0m"
 
     reboot_choice=$(ask_yes_no "Do you want to reboot the IRAN server now?")
     if [ "$reboot_choice" == "yes" ]; then
@@ -138,12 +159,12 @@ else
 [Interface]
 PrivateKey = $FOR_PRIV_KEY
 MTU = $mtu
-Address = fd00:85a3:1b2e::${local_even}/64
+Address = 2619:db8:85a3:1b2::${local_even}/64
 ListenPort = $wg_port
 
 [Peer]
 PublicKey = $iran_pub
-AllowedIPs = fd00:85a3:1b2e::1/128
+AllowedIPs = 2619:db8:85a3:1b2::1/128
 Endpoint = $iran_ip:$wg_port
 PersistentKeepalive = 25
 EOF"
@@ -155,7 +176,7 @@ EOF"
 
     echo -e "\033[1;32mWireGuard setup on FOREIGN server completed.\033[0m"
     echo -e "FOREIGN server public key: \033[1;37m${FOR_PUB_KEY}\033[0m"
-    echo -e "Local IPv6 for this FOREIGN server: \033[1;37mfd00:85a3:1b2e::${local_even}\033[0m"
+    echo -e "Local IPv6 for this FOREIGN server: \033[1;37m2619:db8:85a3:1b2::${local_even}\033[0m"
 
     reboot_choice=$(ask_yes_no "Do you want to reboot the FOREIGN server now?")
     if [ "$reboot_choice" == "yes" ]; then
