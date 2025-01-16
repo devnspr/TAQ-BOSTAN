@@ -1,3 +1,5 @@
+[فارسی](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README.md)
+---
 # TAQ-BOSTAN Project: Creating a Local IPv6 over IPv4 Using WireGuard
 
 Welcome to **TAQ-BOSTAN Script, the first script for creating a local IP via WireGuard**This script helps you obtain a local (private) IPv6 address on servers that do not allow you to create a local IP through methods such as SIT, GRE, VXLAN, etc.
