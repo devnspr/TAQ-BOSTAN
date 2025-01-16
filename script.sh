@@ -93,8 +93,8 @@ if [[ "$server_location" == "IRAN" || "$server_location" == "iran" ]]; then
     read -p "Please enter the MTU (default 1420): " mtu
     mtu=${mtu:-1420}
 
-    echo -e "\033[1;33mCreating /etc/wireguard/wg0.conf for IRAN server...\033[0m"
-    sudo bash -c "cat > /etc/wireguard/wg0.conf <<EOF
+    echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for IRAN server...\033[0m"
+    sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
 [Interface]
 PrivateKey = $IRAN_PRIV_KEY
 MTU = $mtu
@@ -104,7 +104,7 @@ EOF"
 
     count_even=2
     for (( i=1; i<=$n_foreign; i++ )); do
-        sudo bash -c "cat >> /etc/wireguard/wg0.conf <<EOF
+        sudo bash -c "cat >> /etc/wireguard/wg86.conf <<EOF
 
 [Peer]
 PublicKey = ${foreign_pubs[i]}
@@ -115,10 +115,10 @@ EOF"
         count_even=$((count_even + 2))
     done
 
-    sudo chmod 600 /etc/wireguard/wg0.conf
-    sudo wg-quick down wg0 2>/dev/null
-    sudo wg-quick up wg0
-    sudo systemctl enable wg-quick@wg0
+    sudo chmod 600 /etc/wireguard/wg86.conf
+    sudo wg-quick down wg86 2>/dev/null
+    sudo wg-quick up wg86
+    sudo systemctl enable wg-quick@wg86
 
     echo -e "\033[1;32mWireGuard configuration for IRAN server is ready.\033[0m"
     echo -e "IRAN server public key: \033[1;37m${IRAN_PUB_KEY}\033[0m"
@@ -163,8 +163,8 @@ else
     read -p "Please enter the MTU (default 1420): " mtu
     mtu=${mtu:-1420}
 
-    echo -e "\033[1;33mCreating /etc/wireguard/wg0.conf for FOREIGN server...\033[0m"
-    sudo bash -c "cat > /etc/wireguard/wg0.conf <<EOF
+    echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for FOREIGN server...\033[0m"
+    sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
 [Interface]
 PrivateKey = $FOR_PRIV_KEY
 MTU = $mtu
@@ -178,10 +178,10 @@ Endpoint = $iran_ip:$wg_port
 PersistentKeepalive = 25
 EOF"
 
-    sudo chmod 600 /etc/wireguard/wg0.conf
-    sudo wg-quick down wg0 2>/dev/null
-    sudo wg-quick up wg0
-    sudo systemctl enable wg-quick@wg0
+    sudo chmod 600 /etc/wireguard/wg86.conf
+    sudo wg-quick down wg86 2>/dev/null
+    sudo wg-quick up wg86
+    sudo systemctl enable wg-quick@wg86
 
     echo -e "\033[1;32mWireGuard setup on FOREIGN server completed.\033[0m"
     echo -e "FOREIGN server public key: \033[1;37m${FOR_PUB_KEY}\033[0m"
