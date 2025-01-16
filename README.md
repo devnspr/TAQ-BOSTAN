@@ -1,3 +1,5 @@
+[English](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README-en.md)
+---
 # پروژه ‌طاق بستان، ساخت IPv6 لوکال روی بستر IPv4 با استفاده از WireGuard
 
 به **اسکریپت طاق بستان، اولین اسکریپت ساخت آیپی لوکال با استفاده از وایرگارد**
