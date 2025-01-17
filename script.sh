@@ -90,8 +90,8 @@ if [[ "$server_location" == "IRAN" || "$server_location" == "iran" ]]; then
         foreign_pubs[i]=$f_pub
     done
 
-    read -p "Please enter the MTU (default 1420): " mtu
-    mtu=${mtu:-1420}
+    read -p "Please enter the MTU (default 1380): " mtu
+    mtu=${mtu:-1380}
 
     echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for IRAN server...\033[0m"
     sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
@@ -110,7 +110,7 @@ EOF"
 PublicKey = ${foreign_pubs[i]}
 AllowedIPs = 2619:db8:85a3:1b2::${count_even}/128
 Endpoint = ${foreign_ips[i]}:$wg_port
-PersistentKeepalive = 25
+PersistentKeepalive = 20
 EOF"
         count_even=$((count_even + 2))
     done
@@ -160,8 +160,8 @@ else
     read -p "Which number is this FOREIGN server? (1,2,3,...): " f_number
     local_even=$((2 * f_number))
 
-    read -p "Please enter the MTU (default 1420): " mtu
-    mtu=${mtu:-1420}
+    read -p "Please enter the MTU (default 1380): " mtu
+    mtu=${mtu:-1380}
 
     echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for FOREIGN server...\033[0m"
     sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
@@ -175,7 +175,7 @@ ListenPort = $wg_port
 PublicKey = $iran_pub
 AllowedIPs = 2619:db8:85a3:1b2::1/128
 Endpoint = $iran_ip:$wg_port
-PersistentKeepalive = 25
+PersistentKeepalive = 20
 EOF"
 
     sudo chmod 600 /etc/wireguard/wg86.conf
