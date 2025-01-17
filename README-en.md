@@ -32,7 +32,7 @@ My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Creat
    - **Number of foreign servers** (in IRAN mode)
    - **Public key** of the other server
    - **Foreign server index** (for assigning a unique IPv6)  
-   - **MTU** (default 1420)  
+   - **MTU** (default 1380)  
 4. **Final execution**  
    - After all questions, a config file is created in `/etc/wireguard/`.
    - The **wg-quick** service is enabled and will start on boot.
@@ -46,7 +46,7 @@ My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Creat
   2. Enter the server’s public IP (e.g., `1.2.3.4`)  
   3. Set the number of foreign servers (e.g., `2`)
   4. You’ll be asked for the public IP and public key of each foreign server 
-  5. Specify the MTU (or press Enter to accept 1420) 
+  5. Specify the MTU (or press Enter to accept 1380) 
 - **Foreign Server**  
   1. Choose FOREIGN  
   2. Enter the foreign server’s public IP (e.g., `5.6.7.8`)  
