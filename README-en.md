@@ -4,6 +4,8 @@
 
 Welcome to **TAQ-BOSTAN Script, the first script for creating a local IP via WireGuard**This script helps you obtain a local (private) IPv6 address on servers that do not allow you to create a local IP through methods such as SIT, GRE, VXLAN, etc.
 ---
+This script works in blocked servers!
+---
 Note: If your server does not restrict creating a local IP using SIT, GRE, VXLAN, etc., it’s better not to use this project and instead go for approaches like SIT. That’s because WireGuard, due to its encryption overhead, increases CPU load and can reduce the server’s bandwidth. The number of CPU cores isn’t relevant here — only the CPU frequency matters, since WireGuard uses only a single core for its connection. Moreover, WireGuard sends data over UDP, so if there’s any disruption in UDP, the WireGuard-style tunnel may also run into issues.
 My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Create-Private-IPv6-with-Sit
 ---
