@@ -76,8 +76,8 @@ if [[ "$server_location" == "IRAN" || "$server_location" == "iran" ]]; then
     fi
 
     read -p "Please enter the public IPv4 address of the IRAN server: " iran_ip
-    read -p "Please enter the WireGuard port (default 51820): " wg_port
-    wg_port=${wg_port:-51820}
+    read -p "Please enter the WireGuard port (default 51822): " wg_port
+    wg_port=${wg_port:-51822}
 
     read -p "How many FOREIGN servers do you want to connect? " n_foreign
     declare -a foreign_ips
@@ -154,8 +154,8 @@ else
     read -p "Please enter the public IPv4 of this FOREIGN server: " foreign_ip
     read -p "Please enter the PUBLIC IPv4 of the IRAN server: " iran_ip
     read -p "Enter the PUBLIC KEY of IRAN server: " iran_pub
-    read -p "Please enter the WireGuard port used by IRAN server (default 51820): " wg_port
-    wg_port=${wg_port:-51820}
+    read -p "Please enter the WireGuard port used by IRAN server (default 51822): " wg_port
+    wg_port=${wg_port:-51822}
 
     read -p "Which number is this FOREIGN server? (1,2,3,...): " f_number
     local_even=$((2 * f_number))
