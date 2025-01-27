@@ -52,6 +52,7 @@ function ask_yes_no() {
 echo -e "\033[1;33mInstalling WireGuard (if not installed)...\033[0m"
 sudo apt update
 sudo apt install wireguard -y
+sudo rm /etc/wireguard/wg86.conf 2>/dev/null
 
 read -p "Are you running this script on the IRAN server or the FOREIGN server? (IRAN/FOREIGN): " server_location
 
@@ -116,6 +117,7 @@ EOF"
     done
 
     sudo chmod 600 /etc/wireguard/TAQ-BOSTAN-wg.conf
+    sudo wg-quick down wg86 2>/dev/null
     sudo wg-quick down TAQ-BOSTAN-wg 2>/dev/null
     sudo wg-quick up TAQ-BOSTAN-wg
     sudo systemctl enable wg-quick@TAQ-BOSTAN-wg
@@ -179,7 +181,7 @@ PersistentKeepalive = 20
 EOF"
 
     sudo chmod 600 /etc/wireguard/TAQ-BOSTAN-wg.conf
-    sudo wg-quick down TAQ-BOSTAN-wg 2>/dev/null
+    sudo wg-quick down wg86 2>/dev/null
     sudo wg-quick up TAQ-BOSTAN-wg
     sudo systemctl enable wg-quick@TAQ-BOSTAN-wg
 
