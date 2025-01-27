@@ -55,7 +55,7 @@ My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Creat
   3.Enter the Iranian server’s public IP (`1.2.3.4`) and its public key 
   4. Specify which foreign server number this is (1 for the first, 2 for the second, etc.)
   5. Enter the MTU  
-  6. A file at `/etc/wireguard/wg86.conf` is generated and ready for use.
+  6. A file at `/etc/wireguard/TAQ-BOSTAN-wg.conf` is generated and ready for use.
 
 ---
 
