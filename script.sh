@@ -52,6 +52,7 @@ function ask_yes_no() {
 echo -e "\033[1;33mInstalling WireGuard (if not installed)...\033[0m"
 sudo apt update
 sudo apt install wireguard -y
+sudo rm /etc/wireguard/wg86.conf 2>/dev/null
 
 read -p "Are you running this script on the IRAN server or the FOREIGN server? (IRAN/FOREIGN): " server_location
 
@@ -93,8 +94,8 @@ if [[ "$server_location" == "IRAN" || "$server_location" == "iran" ]]; then
     read -p "Please enter the MTU (default 1380): " mtu
     mtu=${mtu:-1380}
 
-    echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for IRAN server...\033[0m"
-    sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
+    echo -e "\033[1;33mCreating /etc/wireguard/TAQBOSTANwg.conf for IRAN server...\033[0m"
+    sudo bash -c "cat > /etc/wireguard/TAQBOSTANwg.conf <<EOF
 [Interface]
 PrivateKey = $IRAN_PRIV_KEY
 MTU = $mtu
@@ -104,7 +105,7 @@ EOF"
 
     count_even=2
     for (( i=1; i<=$n_foreign; i++ )); do
-        sudo bash -c "cat >> /etc/wireguard/wg86.conf <<EOF
+        sudo bash -c "cat >> /etc/wireguard/TAQBOSTANwg.conf <<EOF
 
 [Peer]
 PublicKey = ${foreign_pubs[i]}
@@ -115,10 +116,10 @@ EOF"
         count_even=$((count_even + 2))
     done
 
-    sudo chmod 600 /etc/wireguard/wg86.conf
-    sudo wg-quick down wg86 2>/dev/null
-    sudo wg-quick up wg86
-    sudo systemctl enable wg-quick@wg86
+    sudo chmod 600 /etc/wireguard/TAQBOSTANwg.conf
+    sudo wg-quick down TAQBOSTANwg 2>/dev/null
+    sudo wg-quick up TAQBOSTANwg
+    sudo systemctl enable wg-quick@TAQBOSTANwg
 
     echo -e "\033[1;32mWireGuard configuration for IRAN server is ready.\033[0m"
     echo -e "IRAN server public key: \033[1;37m${IRAN_PUB_KEY}\033[0m"
