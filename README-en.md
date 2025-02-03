@@ -30,7 +30,7 @@ My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Creat
    - If you choose FOREIGN, you only enter the details of that foreign server so it can sync with the Iranian server.
 3. **Enter the details**  
    - **Public IP of the Iranian or foreign server**  
-   - **WireGuard port** (default is 51820)
+   - **WireGuard port** (default is 51822)
    - **Number of foreign servers** (in IRAN mode)
    - **Public key** of the other server
    - **Foreign server index** (for assigning a unique IPv6)  
