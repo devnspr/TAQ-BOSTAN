@@ -164,8 +164,8 @@ else
     read -p "Please enter the MTU (default 1380): " mtu
     mtu=${mtu:-1380}
 
-    echo -e "\033[1;33mCreating /etc/wireguard/wg86.conf for FOREIGN server...\033[0m"
-    sudo bash -c "cat > /etc/wireguard/wg86.conf <<EOF
+    echo -e "\033[1;33mCreating /etc/wireguard/TAQBOSTANwg.conf for FOREIGN server...\033[0m"
+    sudo bash -c "cat > /etc/wireguard/TAQBOSTANwg.conf <<EOF
 [Interface]
 PrivateKey = $FOR_PRIV_KEY
 MTU = $mtu
@@ -179,10 +179,10 @@ Endpoint = $iran_ip:$wg_port
 PersistentKeepalive = 20
 EOF"
 
-    sudo chmod 600 /etc/wireguard/wg86.conf
-    sudo wg-quick down wg86 2>/dev/null
-    sudo wg-quick up wg86
-    sudo systemctl enable wg-quick@wg86
+    sudo chmod 600 /etc/wireguard/TAQBOSTANwg.conf
+    sudo wg-quick down TAQBOSTANwg 2>/dev/null
+    sudo wg-quick up TAQBOSTANwg
+    sudo systemctl enable wg-quick@TAQBOSTANwg
 
     echo -e "\033[1;32mWireGuard setup on FOREIGN server completed.\033[0m"
     echo -e "FOREIGN server public key: \033[1;37m${FOR_PUB_KEY}\033[0m"
