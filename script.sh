@@ -52,7 +52,7 @@ function ask_yes_no() {
 echo -e "\033[1;33mInstalling WireGuard (if not installed)...\033[0m"
 sudo apt update
 sudo apt install wireguard -y
-sudo rm /etc/wireguard/wg86.conf 2>/dev/null
+sudo rm /etc/wireguard/TAQBOSTANwg.conf 2>/dev/null
 
 read -p "Are you running this script on the IRAN server or the FOREIGN server? (IRAN/FOREIGN): " server_location
 
