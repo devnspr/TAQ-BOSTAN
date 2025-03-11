@@ -111,7 +111,7 @@ EOF"
 PublicKey = ${foreign_pubs[i]}
 AllowedIPs = 2619:db8:85a3:1b2::${count_even}/128
 Endpoint = ${foreign_ips[i]}:$wg_port
-PersistentKeepalive = 15
+PersistentKeepalive = 10
 EOF"
         count_even=$((count_even + 2))
     done
@@ -176,7 +176,7 @@ ListenPort = $wg_port
 PublicKey = $iran_pub
 AllowedIPs = 2619:db8:85a3:1b2::1/128
 Endpoint = $iran_ip:$wg_port
-PersistentKeepalive = 15
+PersistentKeepalive = 10
 EOF"
 
     sudo chmod 600 /etc/wireguard/TAQBOSTANwg.conf
