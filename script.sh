@@ -28,7 +28,7 @@ echo -e "Created by Parsa in OPIran club https://t.me/OPIranClub"
 echo -e "Love Iran :)"
 echo -e "==========================================================\033[0m"
 
-# Prompt the user before installing packages
+
 read -p "Do you want to start installing packages? (yes/no): " start_install
 if [[ "$start_install" != "yes" ]]; then
     echo "Canceled by user."
