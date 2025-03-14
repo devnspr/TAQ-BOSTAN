@@ -63,7 +63,7 @@ execute_option() {
       ;;
     2)
       echo -e "${CYAN}Executing: Create local IPv6 with Sit...${RESET}"
-      bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/Create-Private-IPv6-with-Sit/main/script.sh)
+      bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/sit.sh)
       ;;
     3)
       echo -e "${CYAN}Executing: Create local IPv6 with Wireguard...${RESET}"
