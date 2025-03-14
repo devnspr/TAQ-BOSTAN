@@ -1,88 +1,134 @@
 [فارسی](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README.md)
----
-# TAQ-BOSTAN Project: Creating a Local IPv6 over IPv4 Using WireGuard
 
-Welcome to **TAQ-BOSTAN Script, the first script for creating a local IP via WireGuard**This script helps you obtain a local (private) IPv6 address on servers that do not allow you to create a local IP through methods such as SIT, GRE, VXLAN, etc.
----
-This script works in blocked servers!
----
-Note: If your server does not restrict creating a local IP using SIT, GRE, VXLAN, etc., it’s better not to use this project and instead go for approaches like SIT. That’s because WireGuard, due to its encryption overhead, increases CPU load and can reduce the server’s bandwidth. The number of CPU cores isn’t relevant here — only the CPU frequency matters, since WireGuard uses only a single core for its connection. Moreover, WireGuard sends data over UDP, so if there’s any disruption in UDP, the WireGuard-style tunnel may also run into issues.
-My SIT-based script for creating a local IPv6: https://github.com/ParsaKSH/Create-Private-IPv6-with-Sit
----
-
-## **Features**
-- Supports **connecting multiple foreign servers to a single Iranian server**  
-- **Customizable** options for setting port, MTU, IPv6 addresses, etc.
-- **Persistent** after a server reboot (the service starts automatically)
-- **Ready-to-use documentation* and script for convenient installation and configuration
+# 🚀 TAQ-BOSTAN Project
+### The most undetectable tunnel for bypassing censorship
 
 ---
 
-## *Installation & Setup*
-**
-1. **Obtain the script**  
-  Run this command to directly fetch and run the script:
-   ```bash
-   bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/script.sh)
-2. **Choose the server**  
-   At the beginning, you’ll be asked whether you’re running the script on the Iranian or a foreign server (IRAN/FOREIGN)?
-   - If you choose IRAN, you can define multiple FOREIGN servers.  
-   - If you choose FOREIGN, you only enter the details of that foreign server so it can sync with the Iranian server.
-3. **Enter the details**  
-   - **Public IP of the Iranian or foreign server**  
-   - **WireGuard port** (default is 51822)
-   - **Number of foreign servers** (in IRAN mode)
-   - **Public key** of the other server
-   - **Foreign server index** (for assigning a unique IPv6)  
-   - **MTU** (default 1380)  
-4. **Final execution**  
-   - After all questions, a config file is created in `/etc/wireguard/`.
-   - The **wg-quick** service is enabled and will start on boot.
-   - For each **foreign server**, a `[Peer]` section is added to the Iranian server’s config.
+Run the script using this command:
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/script.sh)
+```
+
+## 🌟 Project Introduction
+The **TAQ-BOSTAN** project provides a comprehensive solution for creating secure internet tunnels and local IPv6 networks. It includes three main sections:
+
+- [🔒 Creating a secure and fast tunnel with Hysteria2](#section-1-secure-and-fast-tunnel-with-hysteria2)
+- [🌐 Creating local IPv6 using SIT](#section-2-create-local-ipv6-with-sit)
+- [🛡 Creating local IPv6 using WireGuard](#section-3-create-local-ipv6-with-wireguard)
 
 ---
 
-## **Simple Example**
-- **Iranian Server**  
-  1. Choose IRAN 
-  2. Enter the server’s public IP (e.g., `1.2.3.4`)  
-  3. Set the number of foreign servers (e.g., `2`)
-  4. You’ll be asked for the public IP and public key of each foreign server 
-  5. Specify the MTU (or press Enter to accept 1380) 
-- **Foreign Server**  
-  1. Choose FOREIGN  
-  2. Enter the foreign server’s public IP (e.g., `5.6.7.8`)  
-  3.Enter the Iranian server’s public IP (`1.2.3.4`) and its public key 
-  4. Specify which foreign server number this is (1 for the first, 2 for the second, etc.)
-  5. Enter the MTU  
-  6. A file at `/etc/wireguard/TAQBOSTANwg.conf` is generated and ready for use.
+## 📌 Important Notes
+- If your server doesn't have IPv6, first create local IPv6 using **SIT**. (Note: Do not use WireGuard-created local IPv6 for the Hysteria tunnel.)
+- The scripts automate all installation and configuration steps for you.
 
 ---
 
-## **Support & Contact**
-- **My Telegram ID**: [@ParsaA_KSH](https://t.me/ParsaA_KSH)  
-- **OPIran Group Link**: [OPIranClub@](https://t.me/OPIranClub)
+## 🔒 Section 1: Secure and Fast Tunnel with Hysteria2
+<details>
+<summary>✅ View description and installation guide</summary>
 
-If you encounter any issues or have questions, please tag me in the OPIran group.
-I hope this script and documentation will be useful for you! If you like it, please star the project so more people can discover it. Wishing you success!
+### 📌 Advantages:
+- Encrypted tunnel using **TLS 1.3 + QUIC**
+- Transfers all traffic via a single UDP connection
+- Completely prevents suspicion and detection from Iran Access
+- Traffic behavior similar to regular HTTPS (no risk of detection)
+- No need for a domain (uses self-signed SSL certificate)
+
+### 🚀 Easy Installation:
+Run the script on both Iranian and foreign servers.
+
+- Simply answer the questions during the installation process to set up easily.
+
+</details>
 
 ---
 
-## **Donations**
-If you’d like to support financially, you can use the following wallet addresses:
+## 🌐 Section 2: Creating Local IPv6 with SIT
+<details>
+<summary>✅ View description and installation guide</summary>
 
-- **Tron**: `TD3vY9Drpo3eLi8z2LtGT9Vp4ESuF2AEgo`  
-- **USDT**: `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog`  
-- **TON**: `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2`  
-- **BTC**: `0x800680F566A394935547578bc5599D98B139Ea22`
+### 📌 Advantages:
+- Extremely fast and lightweight (no extra encryption overhead)
+- Native support by the Linux kernel
+- Easy installation and configuration
 
-Any contribution helps improve and continue the development of this project. Thank you for your support ❤️
+**Running the script on Iranian server:**
+- Choose server type as **IRAN**.
+- Enter the Iranian server IP and the number of foreign servers.
+- Enter the IP addresses of foreign servers one by one, then reboot the server.
+
+**Running the script on foreign servers:**
+- Choose server type as **FOREIGN**.
+- Enter the foreign server IP and the Iranian server IP.
+- Enter the foreign server number (as specified on the Iranian server).
+- Reboot the server.
+
+</details>
 
 ---
 
-## **License**
-This project is released under the Apache license. You’re free to use or modify it. Please mention my name (Parsa) and include a link to the project.
+## 🛡 Section 3: Creating Local IPv6 with WireGuard
+<details>
+<summary>✅ View description and installation guide</summary>
 
-![image](https://github.com/user-attachments/assets/d9519a74-0ae3-4c72-93e6-c74db024c294)
+### 📌 Advantages:
+- High security and strong encryption
+- Encapsulates all traffic in a single UDP connection
+- Suitable for use on filtered servers
 
+- Specify the server type (Iranian or Foreign).
+- Enter the public IPs of the servers and WireGuard public keys.
+- Configuration files are generated automatically, and the service is activated.
+- Reboot the server.
+
+</details>
+
+---
+
+## 📞 Support and Guidance
+
+If you have any questions or problems, **ask only by tagging me in the OPIran group:**  
+Please do not send questions privately; they will not be answered.
+
+- 👤 **My Telegram ID:** [@ParsaA_KSH](https://t.me/ParsaA_KSH)  
+- 💬 **OPIran Group:** [OPIranClub](https://t.me/OPIranClub)
+
+---
+
+## ❤️ Support This Project
+
+If this project was helpful to you, you can support financially using the following addresses:
+
+| Network | Wallet Address |
+|---------|----------------|
+| **Tron** | `TD3vY9Drpo3eLi8z2LtGT9Vp4ESuF2AEgo` |
+| **USDT** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
+| **TON** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
+| **BTC** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+
+Thank you for your support ❤️
+
+---
+
+## 📝 Project License
+
+The TAQ-BOSTAN project is released under the **Apache** license.  
+Feel free to use it, but please mention my name (Parsa) and the project link.
+
+---
+
+## ⭐️ Star this Project
+
+If you found this project useful, please star it so more people can discover and benefit from it.
+
+---
+
+With the hope of a prosperous Iran...  
+Wishing you success 🚀✨
+
+![image](https://github.com/user-attachments/assets/f9f4e79a-0dd4-47ca-862a-8af8504a355a)  
+Iran, Kermanshah
 
