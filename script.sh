@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 GREEN="\e[32m"
 BOLD_GREEN="\e[1;32m"
