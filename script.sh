@@ -59,7 +59,7 @@ execute_option() {
   case "$choice" in
     1)
       echo -e "${CYAN}Executing: Create best and safest tunnel...${RESET}"
-      sudo bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/hysteria.sh)
+      sudo bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/script.sh)
       ;;
     2)
       echo -e "${CYAN}Executing: Create local IPv6 with Sit...${RESET}"
