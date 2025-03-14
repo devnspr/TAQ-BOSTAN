@@ -51,7 +51,7 @@ fi
 
 chmod +x hysteria
 sudo mv hysteria /usr/local/bin/
-
+sudo mkdir /etc/hysteria/
 read -p "Are you installing on the Iranian server or the Foreign server? (Iran/Foreign): " SERVER_TYPE
 
 SERVER_TYPE=$(echo "$SERVER_TYPE" | tr '[:upper:]' '[:lower:]')
