@@ -29,6 +29,8 @@ echo -e "Love Iran :)"
 
 
 
+#!/bin/bash
+
 GREEN="\e[32m"
 BOLD_GREEN="\e[1;32m"
 YELLOW="\e[33m"
@@ -36,12 +38,12 @@ BLUE="\e[34m"
 CYAN="\e[36m"
 MAGENTA="\e[35m"
 WHITE="\e[37m"
+RED="\e[31m"
 RESET="\e[0m"
 
 draw_green_line() {
   echo -e "${GREEN}+--------------------------------------------------------+${RESET}"
 }
-
 
 print_menu() {
   draw_green_line
@@ -75,13 +77,6 @@ execute_option() {
   esac
 }
 
-clear
 print_menu
-
-
 read -p "$(echo -e "${WHITE}Select an option [1-3]: ${RESET}")" user_choice
-
-
 execute_option "$user_choice"
-
-echo -e "==========================================================\033[0m"
