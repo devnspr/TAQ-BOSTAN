@@ -96,7 +96,7 @@ execute_option() {
       sudo systemctl disable wg-quick@TAQBOSTANwg 2>/dev/null
       sudo rm /etc/wireguard/TAQBOSTANwg.conf 2>/dev/null
       echo -e "${GREEN}Local IPv6 with Wireguard successfully deleted.${RESET}"
-      sudo reboot
+      sudo shutdown -r now
       ;;
     *)
       echo -e "${RED}Invalid option. Exiting...${RESET}"
