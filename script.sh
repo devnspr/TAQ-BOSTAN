@@ -12,6 +12,36 @@ draw_green_line() {
   echo -e "${GREEN}+--------------------------------------------------------+${RESET}"
 }
 
+print_art() {
+  echo -e "\033[1;32m                                                           "
+  echo -e "@@@@@@@   @@@@@@    @@@@@@                                 "
+  echo -e "@@@@@@@  @@@@@@@@  @@@@@@@@                                "
+  echo -e "  @@!    @@!  @@@  @@!  @@@                                "
+  echo -e "  !@!    !@!  @!@  !@!  @!@                                "
+  echo -e "  @!!    @!@!@!@!  @!@  !@!                                "
+  echo -e "  !!!    !!!@!!!!  !@!  !!!                                "
+  echo -e "  !!:    !!:  !!!  !!:!!:!:                                "
+  echo -e "  :!:    :!:  !:!  :!: :!:                                 "
+  echo -e "   ::    ::   :::  ::::: :!                                "
+  echo -e "   :      :   : :   : :  :::                               "
+  echo -e "@@@@@@@    @@@@@@    @@@@@@  @@@@@@@   @@@@@@   @@@  @@@   "
+  echo -e "@@@@@@@@  @@@@@@@@  @@@@@@@  @@@@@@@  @@@@@@@@  @@@@ @@@   "
+  echo -e "@@!  @@@  @@!  @@@  !@@        @@!    @@!  @@@  @@!@!@@@   "
+  echo -e "!@   @!@  !@!  @!@  !@!        !@!    !@!  @!@  !@!!@!@!   "
+  echo -e "@!@!@!@   @!@  !@!  !!@@!!     @!!    @!@!@!@!  @!@ !!@!   "
+  echo -e "!!!@!!!!  !@!  !!!   !!@!!!    !!!    !!!@!!!!  !@!  !!!   "
+  echo -e "!!:  !!!  !!:  !!!       !:!   !!:    !!:  !!!  !!:  !!!   "
+  echo -e ":!:  !:!  :!:  !:!      !:!    :!:    :!:  !:!  :!:  !:!   "
+  echo -e " :: ::::  ::::: ::  :::: ::     ::    ::   :::   ::   ::   "
+  echo -e ":: : ::    : :  :   :: : :      :      :   : :  ::    :    "
+  echo -e "                                                           \033[0m"
+
+  echo -e "\033[1;33m=========================================================="
+  echo -e "Created by Parsa in OPIran club https://t.me/OPIranClub"
+  echo -e "Love Iran :)"
+  echo -e "\033[0m"
+}
+
 print_menu() {
   draw_green_line
   echo -e "${GREEN}|${RESET}              ${BOLD_GREEN}TAQ-BOSTAN Main Menu${RESET}                 ${GREEN}|${RESET}"
@@ -74,6 +104,8 @@ execute_option() {
   esac
 }
 
+print_art
 print_menu
 read -p "$(echo -e "${WHITE}Select an option [1-6]: ${RESET}")" user_choice
 execute_option "$user_choice"
+
