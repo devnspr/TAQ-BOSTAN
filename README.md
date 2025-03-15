@@ -103,12 +103,12 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 
 اگر پروژه برای شما مفید بود، برای حمایت مالی می‌توانید از آدرس‌های زیر استفاده کنید:
 
-| شبکه | آدرس والت |
+| ارز | آدرس والت |
 |-------|------------|
 | **Tron** | `TD3vY9Drpo3eLi8z2LtGT9Vp4ESuF2AEgo` |
-| **USDT** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
-| **TON** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
-| **BTC** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+| **USDT(ERC20)** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+| **TON** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
+| **BTC** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
 
 از حمایت شما ممنونم ❤️
 
