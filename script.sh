@@ -74,10 +74,19 @@ execute_option() {
     4)
       echo -e "${CYAN}Deleting Hysteria tunnel...${RESET}"
       sudo systemctl daemon-reload 2>/dev/null
-      for i in {,1,2,3,4,5,6,7,8}; do
+      for i in {,1,2,3,4,5,6,7,8,9}; do
         sudo systemctl disable hysteria$i 2>/dev/null
+        sudo systemctl disable hysteria 2>/dev/null
       done
-      sudo rm /etc/hysteria/server-config.yaml /etc/hysteria/iran-config{1..8}.yaml 2>/dev/null
+      sudo rm /etc/hysteria/server-config.yaml
+      sudo rm /etc/hysteria/iran-config1.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config2.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config3.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config4.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config5.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config6.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config7.yaml 2>/dev/null
+      sudo rm /etc/hysteria/iran-config8.yaml 2>/dev/null
       echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
       ;;
     5)
