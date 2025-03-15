@@ -35,13 +35,11 @@ print_art() {
   echo -e " :: ::::  ::::: ::  :::: ::     ::    ::   :::   ::   ::   "
   echo -e ":: : ::    : :  :   :: : :      :      :   : :  ::    :    "
   echo -e "                                                           \033[0m"
-
   echo -e "\033[1;33m=========================================================="
   echo -e "Created by Parsa in OPIran club https://t.me/OPIranClub"
   echo -e "Love Iran :)"
   echo -e "\033[0m"
 }
-
 print_menu() {
   draw_green_line
   echo -e "${GREEN}|${RESET}              ${BOLD_GREEN}TAQ-BOSTAN Main Menu${RESET}                 ${GREEN}|${RESET}"
