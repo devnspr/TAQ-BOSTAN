@@ -102,12 +102,12 @@ Please do not send questions privately; they will not be answered.
 
 If this project was helpful to you, you can support financially using the following addresses:
 
-| Network | Wallet Address |
+| Currency | Wallet Address |
 |---------|----------------|
 | **Tron** | `TD3vY9Drpo3eLi8z2LtGT9Vp4ESuF2AEgo` |
-| **USDT** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
-| **TON** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
-| **BTC** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+| **USDT(ERC20)** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+| **TON** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
+| **BTC** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
 
 Thank you for your support ❤️
 
