@@ -52,25 +52,25 @@ fi
 chmod +x hysteria
 sudo mv hysteria /usr/local/bin/
 sudo mkdir /etc/hysteria/
-sudo systemctl daemon-reload > /dev/null
-sudo systemctl disable hysteria > /dev/null
-sudo systemctl disable hysteria1 > /dev/null
-sudo systemctl disable hysteria2 > /dev/null
-sudo systemctl disable hysteria3 > /dev/null
-sudo systemctl disable hysteria4 > /dev/null
-sudo systemctl disable hysteria5 > /dev/null
-sudo systemctl disable hysteria6 > /dev/null
-sudo systemctl disable hysteria7 > /dev/null
-sudo systemctl disable hysteria8 > /dev/null
-sudo rm /etc/hysteria/server-config.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config1.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config2.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config3.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config4.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config5.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config6.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config7.yaml > /dev/null
-sudo rm /etc/hysteria/iran-config8.yaml > /dev/null
+sudo systemctl daemon-reload 2>/dev/null
+sudo systemctl disable hysteria 2>/dev/null
+sudo systemctl disable hysteria1 2>/dev/null
+sudo systemctl disable hysteria2 2>/dev/null
+sudo systemctl disable hysteria3 2>/dev/null
+sudo systemctl disable hysteria4 2>/dev/null
+sudo systemctl disable hysteria5 2>/dev/null
+sudo systemctl disable hysteria6 2>/dev/null
+sudo systemctl disable hysteria7 2>/dev/null
+sudo systemctl disable hysteria8 2>/dev/null
+sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config1.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config2.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config3.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config4.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config5.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config6.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config7.yaml 2>/dev/null
+sudo rm /etc/hysteria/iran-config8.yaml 2>/dev/null
 read -p "Are you installing on the Iranian server or the Foreign server? (Iran/Foreign): " SERVER_TYPE
 
 SERVER_TYPE=$(echo "$SERVER_TYPE" | tr '[:upper:]' '[:lower:]')
@@ -143,7 +143,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     read -p "Please enter the IPv6 of this foreign server: " FOREIGN_IPV6
     read -p "Please enter the Hysteria port used on the foreign server: " FOREIGN_PORT
     read -p "Please enter the Hysteria password used on the foreign server: " FOREIGN_PASSWORD
-    read -p "Please enter the SNI (e.g. example.com) used on the foreign server: " FOREIGN_SNI
+    read -p "Please enter the SNI (e.g. example.com): " FOREIGN_SNI
 
     read -p "How many ports do you want to tunnel for this server? " PORT_FORWARD_COUNT
 
