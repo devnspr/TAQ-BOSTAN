@@ -85,9 +85,12 @@ execute_option() {
       for i in {,1,2,3,4,5,6,7,8}; do
         sudo rm /etc/netplan/pdtun$i.yaml 2>/dev/null
         sudo rm /etc/systemd/network/tun$i.network 2>/dev/null
+        sudo rm /etc/netplan/pdtun.yaml 2>/dev/null
+        sudo rm /etc/systemd/network/tun0.network 2>/dev/null
       done
       sudo netplan apply 
       sudo systemctl restart systemd-networkd
+      sudo shutdown -r now
       echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
       ;;
     6)
@@ -96,7 +99,6 @@ execute_option() {
       sudo systemctl disable wg-quick@TAQBOSTANwg 2>/dev/null
       sudo rm /etc/wireguard/TAQBOSTANwg.conf 2>/dev/null
       echo -e "${GREEN}Local IPv6 with Wireguard successfully deleted.${RESET}"
-      sleep 5  
       sudo shutdown -r now
       ;;
     *)
