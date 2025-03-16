@@ -178,6 +178,11 @@ tls:
   sni: \"$FOREIGN_SNI\"
   insecure: true
 
+quic:
+  initStreamReceiveWindow: 8388608
+  maxIdleTimeout: 30s
+  keepAliveInterval: 10s
+
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
