@@ -76,7 +76,7 @@ execute_option() {
         sudo systemctl disable hysteria$i 2>/dev/null
         sudo systemctl disable hysteria 2>/dev/null
       done
-      sudo rm /etc/hysteria/server-config.yaml
+      sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
       sudo rm /etc/hysteria/iran-config1.yaml 2>/dev/null
       sudo rm /etc/hysteria/iran-config2.yaml 2>/dev/null
       sudo rm /etc/hysteria/iran-config3.yaml 2>/dev/null
