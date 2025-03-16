@@ -94,9 +94,27 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
 
   read -p "Please enter the Hysteria port (e.g. 443): " H_PORT
   read -p "Please enter a password for Hysteria: " H_PASSWORD
+  read -p "Do you want to enable FEC? (only recommended for gaming) [y/n]: " ENABLE_FEC
+  if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
+    read -p "Enter FEC send window size (default 20): " FEC_SEND
+    read -p "Enter FEC receive window size (default 10): " FEC_RECEIVE
+    FEC_SEND=${FEC_SEND:-20}
+    FEC_RECEIVE=${FEC_RECEIVE:-10}
 
-
-  cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
+    cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
+listen: ":$H_PORT"
+tls:
+  cert: /etc/hysteria/self.crt
+  key: /etc/hysteria/self.key
+auth:
+  type: password
+  password: "$H_PASSWORD"
+fec:
+  sendWindowSize: $FEC_SEND
+  receiveWindowSize: $FEC_RECEIVE
+EOF
+  else
+    cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
 tls:
   cert: /etc/hysteria/self.crt
@@ -105,6 +123,8 @@ auth:
   type: password
   password: "$H_PASSWORD"
 EOF
+  fi
+  
 
 
   cat << EOF | sudo tee /etc/systemd/system/hysteria.service > /dev/null
@@ -134,9 +154,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
 
   colorEcho "You are setting up the Iranian server..." green
 
-
   read -p "How many foreign servers do you have? " SERVER_COUNT
-
 
   for (( i=1; i<=$SERVER_COUNT; i++ ))
   do
@@ -147,7 +165,6 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     read -p "Please enter the SNI (e.g. example.com): " FOREIGN_SNI
 
     read -p "How many ports do you want to tunnel for this server? " PORT_FORWARD_COUNT
-
 
     TCP_FORWARD=""
     UDP_FORWARD=""
@@ -171,6 +188,20 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
       fi
     done
 
+    read -p "Do you want to enable FEC for this server? (only recommended for gaming) [y/n]: " ENABLE_FEC
+    if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
+      read -p "Enter FEC send window size (default 20): " FEC_SEND
+      read -p "Enter FEC receive window size (default 10): " FEC_RECEIVE
+      FEC_SEND=${FEC_SEND:-20}
+      FEC_RECEIVE=${FEC_RECEIVE:-10}
+      FEC_CONFIG="
+fec:
+  sendWindowSize: $FEC_SEND
+  receiveWindowSize: $FEC_RECEIVE"
+    else
+      FEC_CONFIG=""
+    fi
+
     IRAN_CONFIG="/etc/hysteria/iran-config${i}.yaml"
     sudo bash -c "cat << EOF > $IRAN_CONFIG
 server: \"[$FOREIGN_IPV6]:$FOREIGN_PORT\"
@@ -187,7 +218,7 @@ quic:
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
-$UDP_FORWARD
+$UDP_FORWARD$FEC_CONFIG
 EOF"
 
 
