@@ -126,6 +126,7 @@ EOF
   sudo systemctl daemon-reload
   sudo systemctl enable hysteria
   sudo systemctl start hysteria
+  (crontab -l 2>/dev/null; echo "0 4 * * * /usr/bin/systemctl restart hysteria") | crontab -
 
   colorEcho "Foreign server has been successfully configured." green
 
