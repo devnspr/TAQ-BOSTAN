@@ -109,6 +109,7 @@ tls:
 auth:
   type: password
   password: "$H_PASSWORD"
+speedTest: true
 fec:
   sendWindowSize: $FEC_SEND
   receiveWindowSize: $FEC_RECEIVE
@@ -122,6 +123,7 @@ tls:
 auth:
   type: password
   password: "$H_PASSWORD"
+speedTest: true
 EOF
   fi
   
