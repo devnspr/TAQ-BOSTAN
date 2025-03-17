@@ -53,6 +53,7 @@ print_menu() {
   echo -e "${GREEN}|${RESET} ${MAGENTA}6)${RESET} Delete local IPv6 with Wireguard                ${GREEN}|${RESET}"
   draw_green_line
   echo -e "${GREEN}|${RESET} ${RED}6)${RESET} hysteria Tunnel Speedtest (Run in iran server)  ${GREEN}|${RESET}"
+  draw_green_line
 }
 
 execute_option() {
