@@ -52,7 +52,7 @@ print_menu() {
   echo -e "${GREEN}|${RESET} ${YELLOW}5)${RESET} Delete local IPv6 with Sit                      ${GREEN}|${RESET}"
   echo -e "${GREEN}|${RESET} ${MAGENTA}6)${RESET} Delete local IPv6 with Wireguard                ${GREEN}|${RESET}"
   draw_green_line
-  echo -e "${GREEN}|${RESET} ${WHITE}6)${RESET} hysteria Tunnel Speedtest (Run in iran server)${GREEN}|${RESET}"
+  echo -e "${GREEN}|${RESET} ${RED}6)${RESET} hysteria Tunnel Speedtest (Run in iran server)${GREEN}|${RESET}"
 }
 
 execute_option() {
@@ -110,15 +110,14 @@ execute_option() {
       echo -e "${GREEN}Local IPv6 with Wireguard successfully deleted.${RESET}"
       sudo shutdown -r now
       ;;
-    *)
-      echo -e "${RED}Invalid option. Exiting...${RESET}"
-      exit 1
-      ;;
     7)
       read -p "For which foreign server number do you want to run the speedtest? " server_number
       /usr/local/bin/hysteria -c /etc/hysteria/iran-config${server_number}.yaml speedtest
       ;;
-
+    *)
+      echo -e "${RED}Invalid option. Exiting...${RESET}"
+      exit 1
+      ;;
   esac
 }
 
