@@ -42,7 +42,7 @@ print_art() {
 }
 print_menu() {
   draw_green_line
-  echo -e "${GREEN}|${RESET}              ${BOLD_GREEN}TAQ-BOSTAN Main Menu${RESET}                 ${GREEN}|${RESET}"
+  echo -e "${GREEN}|${RESET}              ${BOLD_GREEN}TAQ-BOSTAN Main Menu${RESET}                  ${GREEN}|${RESET}"
   draw_green_line
   echo -e "${GREEN}|${RESET} ${BLUE}1)${RESET} Create best and safest tunnel                    ${GREEN}|${RESET}"
   echo -e "${GREEN}|${RESET} ${YELLOW}2)${RESET} Create local IPv6 with Sit                      ${GREEN}|${RESET}"
@@ -52,7 +52,7 @@ print_menu() {
   echo -e "${GREEN}|${RESET} ${YELLOW}5)${RESET} Delete local IPv6 with Sit                      ${GREEN}|${RESET}"
   echo -e "${GREEN}|${RESET} ${MAGENTA}6)${RESET} Delete local IPv6 with Wireguard                ${GREEN}|${RESET}"
   draw_green_line
-  echo -e "${GREEN}|${RESET} ${RED}6)${RESET} hysteria Tunnel Speedtest (Run in iran server)${GREEN}|${RESET}"
+  echo -e "${GREEN}|${RESET} ${RED}6)${RESET} hysteria Tunnel Speedtest (Run in iran server)  ${GREEN}|${RESET}"
 }
 
 execute_option() {
