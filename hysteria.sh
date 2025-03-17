@@ -96,10 +96,10 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
   read -p "Please enter a password for Hysteria: " H_PASSWORD
   read -p "Do you want to enable FEC? (only recommended for gaming) [y/n]: " ENABLE_FEC
   if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
-    read -p "Enter FEC send window size (default 20): " FEC_SEND
-    read -p "Enter FEC receive window size (default 10): " FEC_RECEIVE
-    FEC_SEND=${FEC_SEND:-20}
-    FEC_RECEIVE=${FEC_RECEIVE:-10}
+    read -p "Enter FEC send window size (default 512): " FEC_SEND
+    read -p "Enter FEC receive window size (default 128): " FEC_RECEIVE
+    FEC_SEND=${FEC_SEND:-512}
+    FEC_RECEIVE=${FEC_RECEIVE:-128}
 
     cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
@@ -111,8 +111,9 @@ auth:
   password: "$H_PASSWORD"
 speedTest: true
 fec:
-  sendWindowSize: $FEC_SEND
-  receiveWindowSize: $FEC_RECEIVE
+  mode: rs
+  send_window: $FEC_SEND
+  receive_window: $FEC_RECEIVE
 EOF
   else
     cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
@@ -192,14 +193,15 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
 
     read -p "Do you want to enable FEC for this server? (only recommended for gaming) [y/n]: " ENABLE_FEC
     if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
-      read -p "Enter FEC send window size (default 20): " FEC_SEND
-      read -p "Enter FEC receive window size (default 10): " FEC_RECEIVE
-      FEC_SEND=${FEC_SEND:-20}
-      FEC_RECEIVE=${FEC_RECEIVE:-10}
+      read -p "Enter FEC send window size (default 128): " FEC_SEND
+      read -p "Enter FEC receive window size (default 512): " FEC_RECEIVE
+      FEC_SEND=${FEC_SEND:-128}
+      FEC_RECEIVE=${FEC_RECEIVE:-512}
       FEC_CONFIG="
 fec:
-  sendWindowSize: $FEC_SEND
-  receiveWindowSize: $FEC_RECEIVE"
+  mode: rs
+  send_window: $FEC_SEND
+  receive_window: $FEC_RECEIVE"
     else
       FEC_CONFIG=""
     fi
