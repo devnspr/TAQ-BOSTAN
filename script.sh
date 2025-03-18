@@ -124,6 +124,6 @@ execute_option() {
 
 print_art
 print_menu
-read -p "$(echo -e "${WHITE}Select an option [1-6]: ${RESET}")" user_choice
+read -p "$(echo -e "${WHITE}Select an option [1-7]: ${RESET}")" user_choice
 execute_option "$user_choice"
 
