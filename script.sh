@@ -101,8 +101,8 @@ execute_option() {
       done
       sudo netplan apply 
       sudo systemctl restart systemd-networkd
-      sudo shutdown -r now
       echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
+      sudo shutdown -r now
       ;;
     6)
       echo -e "${CYAN}Deleting local IPv6 with Wireguard...${RESET}"
