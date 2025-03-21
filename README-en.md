@@ -1,3 +1,9 @@
+<div align="center">
+<img src="https://github.com/user-attachments/assets/acc27110-4275-4751-937b-cdc63704164f" width="300" />
+</div>
+
+---
+
 [فارسی](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README.md)
 
 # 🚀 TAQ-BOSTAN Project
