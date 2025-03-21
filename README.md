@@ -96,15 +96,17 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 - 💬 **گروه اپ‌ایران:** [OPIranClub](https://t.me/OPIranClub)
 
 ---
-## 💠 خرید سرور ایران و خارج با کیفیت بالا و پورت 10Gb/s
+## <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/logo/logo_big.1066038415.png" width="34" /> خرید سرور ایران و خارج با کیفیت بالا و پورت 10Gb/s
 
 اگر برای راه‌اندازی تونل‌ها و زیرساخت‌های اینترنتی به یک سرور قدرتمند، پایدار و به‌صرفه نیاز دارید، **DigitalVPS** انتخابی شایسته است.
 
 🔹 ارائه سرورهای مجازی ایران از شرکت‌های معتبر:
-- **افرانت** (پیشنهاد توسعه‌دهنده)
-- رسپینا، شاتل، مبین‌نت
+- **افرانت**<img src="https://client.digitalvps.ir/Logo/afranettttt.png" width="74" /> (پیشنهاد توسعه‌دهنده)
+- رسپینا <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/page-manager/Respina-Logo.png" width="34" />
+-  شاتل <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/page-manager/shatel1.png" width="24" />
+-  مبین‌نت <img src="https://client.digitalvps.ir/Logo/MobinNetLog.png" width="24" />
 
-🔹 سرور مجازی خارج (هلند) از دیتاسنتر **Skylink**
+🔹 سرور مجازی خارج (هلند) از دیتاسنتر **Skylink** <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/nilogo.png" width="24" />
 
 ✨ ویژگی‌ها:
 - **پینگ پایین به ترکیه و اروپا**
