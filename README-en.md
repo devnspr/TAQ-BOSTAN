@@ -2,6 +2,15 @@
 <img src="https://github.com/user-attachments/assets/acc27110-4275-4751-937b-cdc63704164f" width="300" />
 </div>
 
+<div align="center">
+  
+[![release](https://img.shields.io/badge/release-v2.0.1-%23006400)](#)
+[![sponsor](https://img.shields.io/badge/sponsor-DigitalVPS.ir-%23FF0000)](https://client.digitalvps.ir/aff.php?aff=52)
+[![license](https://img.shields.io/badge/license-Apache2-%23006400)](#)
+[![club](https://img.shields.io/badge/club-OPIRAN-%234B0082)](https://t.me/OPIranClub)
+
+</div>
+
 ---
 
 [فارسی](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README.md)
