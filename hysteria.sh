@@ -162,53 +162,58 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
   for (( i=1; i<=$SERVER_COUNT; i++ ))
   do
     colorEcho "Foreign server number $i:" cyan
+    read -p "Do you want to use IPv4 or IPv6 for remote addresses? (IPv4/IPv6): " IP_VERSION
+IP_VERSION=$(echo "$IP_VERSION" | tr '[:upper:]' '[:lower:]')
+
+if [[ "$IP_VERSION" == "ipv4" ]]; then
+  REMOTE_IP="0.0.0.0"
+else
+  REMOTE_IP="[::]"
+fi
+
+for (( i=1; i<=$SERVER_COUNT; i++ ))
+do
+  colorEcho "Foreign server number $i:" cyan
+  
+  if [[ "$IP_VERSION" == "ipv4" ]]; then
+    read -p "Please enter the IPv4 of this foreign server: " FOREIGN_IP
+    SERVER_ADDRESS="$FOREIGN_IP"
+  else
     read -p "Please enter the IPv6 of this foreign server: " FOREIGN_IPV6
-    read -p "Please enter the Hysteria port used on the foreign server: " FOREIGN_PORT
-    read -p "Please enter the Hysteria password used on the foreign server: " FOREIGN_PASSWORD
-    read -p "Please enter the SNI (e.g. example.com): " FOREIGN_SNI
+    SERVER_ADDRESS="[$FOREIGN_IPV6]"
+  fi
+  
+  read -p "Please enter the Hysteria port used on the foreign server: " FOREIGN_PORT
+  read -p "Please enter the Hysteria password used on the foreign server: " FOREIGN_PASSWORD
+  read -p "Please enter the SNI (e.g. example.com): " FOREIGN_SNI
 
-    read -p "How many ports do you want to tunnel for this server? " PORT_FORWARD_COUNT
+  read -p "How many ports do you want to tunnel for this server? " PORT_FORWARD_COUNT
 
-    TCP_FORWARD=""
-    UDP_FORWARD=""
-    FORWARDED_PORTS=""
+  TCP_FORWARD=""
+  UDP_FORWARD=""
+  FORWARDED_PORTS=""
 
-    for (( p=1; p<=$PORT_FORWARD_COUNT; p++ ))
-    do
-      read -p "Enter port number #$p you want to tunnel: " TUNNEL_PORT
-      
-      TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
-    remote: '[::]:$TUNNEL_PORT'
+  for (( p=1; p<=$PORT_FORWARD_COUNT; p++ ))
+  do
+    read -p "Enter port number #$p you want to tunnel: " TUNNEL_PORT
+    
+    TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
+    remote: '$REMOTE_IP:$TUNNEL_PORT'
 "
-      UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
-    remote: '[::]:$TUNNEL_PORT'
+    UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
+    remote: '$REMOTE_IP:$TUNNEL_PORT'
 "
 
-      if [ -z "$FORWARDED_PORTS" ]; then
-        FORWARDED_PORTS="$TUNNEL_PORT"
-      else
-        FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
-      fi
-    done
-
-    read -p "Do you want to enable FEC for this server? (only recommended for gaming) [y/n]: " ENABLE_FEC
-    if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
-      read -p "Enter FEC send window size (default 128): " FEC_SEND
-      read -p "Enter FEC receive window size (default 512): " FEC_RECEIVE
-      FEC_SEND=${FEC_SEND:-128}
-      FEC_RECEIVE=${FEC_RECEIVE:-512}
-      FEC_CONFIG="
-fec:
-  mode: rs
-  send_window: $FEC_SEND
-  receive_window: $FEC_RECEIVE"
+    if [ -z "$FORWARDED_PORTS" ]; then
+      FORWARDED_PORTS="$TUNNEL_PORT"
     else
-      FEC_CONFIG=""
+      FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
     fi
+  done
 
-    IRAN_CONFIG="/etc/hysteria/iran-config${i}.yaml"
-    sudo bash -c "cat << EOF > $IRAN_CONFIG
-server: \"[$FOREIGN_IPV6]:$FOREIGN_PORT\"
+  IRAN_CONFIG="/etc/hysteria/iran-config${i}.yaml"
+  sudo bash -c "cat << EOF > $IRAN_CONFIG
+server: \"$SERVER_ADDRESS:$FOREIGN_PORT\"
 auth: \"$FOREIGN_PASSWORD\"
 tls:
   sni: \"$FOREIGN_SNI\"
@@ -224,6 +229,7 @@ $TCP_FORWARD
 udpForwarding:
 $UDP_FORWARD$FEC_CONFIG
 EOF"
+
 
 
     IRAN_SERVICE="/etc/systemd/system/hysteria${i}.service"
