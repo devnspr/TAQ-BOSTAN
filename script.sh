@@ -37,8 +37,8 @@ print_art() {
   echo -e "                                                           \033[0m"
   echo -e "\033[1;33m=========================================================="
   echo -e "Created by Parsa in OPIran club https://t.me/OPIranClub"
-  echo -e "\033[0m${RED}Sponsored by DigitalVPS.ir${RED}\033[0m"
-  echo -e "Love Iran :)"
+  echo -e "\033[0m${RED}Sponsored by DigitalVPS.ir${RED}${RESET}"
+  echo -e "\033[1;33mLove Iran :)"
   echo -e "\033[0m"
 }
 print_menu() {
