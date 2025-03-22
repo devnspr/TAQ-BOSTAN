@@ -67,7 +67,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 <details>
 <summary>سرور خارج</summary>
 
-1-اسکریپت را روی سرور اجرا کنید.
+1-اسکریپت را روی سرور اجرا کنید و شماره1 را وارد کنید.
 
 2-عدد 1 را وارد کنید تا اسکریپت هیستریا اجرا شود.
 
@@ -86,7 +86,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 <details>
 <summary>سرور ایران</summary>
 
-1-اسکریپت را روی سرور اجرا کنید.
+1-اسکریپت را روی سرور اجرا کنید و شماره1 را وارد کنید.
 
 2-کلمه "Iran" را وارد کنید.
 
