@@ -197,7 +197,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 🎯 با خیال آسوده پروژه‌ی خود را روی زیرساختی مطمئن بنا کنید.
 
 📎 می‌توانید از طریق لینک زیر اقدام به ثبت نام و خرید کنید:  
-👉 [https://client.digitalvps.ir/login](https://client.digitalvps.ir/aff.php?aff=52)
+👉 [https://client.digitalvps.ir/aff.php?aff=52](https://client.digitalvps.ir/aff.php?aff=52)
 
 ---
 
