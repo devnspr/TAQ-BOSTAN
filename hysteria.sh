@@ -94,12 +94,7 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
 
   read -p "Please enter the Hysteria port (e.g. 443): " H_PORT
   read -p "Please enter a password for Hysteria: " H_PASSWORD
-  read -p "Do you want to enable FEC? (only recommended for gaming) [y/n]: " ENABLE_FEC
-  if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
-    read -p "Enter FEC send window size (default 512): " FEC_SEND
-    read -p "Enter FEC receive window size (default 128): " FEC_RECEIVE
-    FEC_SEND=${FEC_SEND:-512}
-    FEC_RECEIVE=${FEC_RECEIVE:-128}
+
 
     cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
@@ -110,10 +105,7 @@ auth:
   type: password
   password: "$H_PASSWORD"
 speedTest: true
-fec:
-  mode: rs
-  send_window: $FEC_SEND
-  receive_window: $FEC_RECEIVE
+
 EOF
   else
     cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
@@ -208,21 +200,6 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
       fi
     done
 
-    read -p "Do you want to enable FEC for this server? (only recommended for gaming) [y/n]: " ENABLE_FEC
-    if [[ "$ENABLE_FEC" =~ ^[Yy]$ ]]; then
-      read -p "Enter FEC send window size (default 128): " FEC_SEND
-      read -p "Enter FEC receive window size (default 512): " FEC_RECEIVE
-      FEC_SEND=${FEC_SEND:-128}
-      FEC_RECEIVE=${FEC_RECEIVE:-512}
-      FEC_CONFIG="
-fec:
-  mode: rs
-  send_window: $FEC_SEND
-  receive_window: $FEC_RECEIVE"
-    else
-      FEC_CONFIG=""
-    fi
-
     IRAN_CONFIG="/etc/hysteria/iran-config${i}.yaml"
     sudo bash -c "cat << EOF > $IRAN_CONFIG
 server: \"$SERVER_ADDRESS:$FOREIGN_PORT\"
@@ -239,7 +216,7 @@ quic:
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
-$UDP_FORWARD$FEC_CONFIG
+$UDP_FORWARD
 EOF"
 
     IRAN_SERVICE="/etc/systemd/system/hysteria${i}.service"
