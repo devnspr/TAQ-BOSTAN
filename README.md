@@ -188,11 +188,11 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 - سرور مجازی هلند <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/nilogo.png" width="24" />
 - سرور مجازی آلمان <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/page-manager/GB.svg" width="24" />
 
----
 ✨ ویژگی‌ها:
 - **پینگ پایین به ترکیه و اروپا**
 - **IPv6 استیبل**
 - کیفیت بسیار بالا و قیمت پایین 💰
+- آپتایم 99.9%
 
 🎯 با خیال آسوده پروژه‌ی خود را روی زیرساختی مطمئن بنا کنید.
 
