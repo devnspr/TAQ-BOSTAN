@@ -52,25 +52,7 @@ fi
 chmod +x hysteria
 sudo mv hysteria /usr/local/bin/
 sudo mkdir /etc/hysteria/
-sudo systemctl daemon-reload 2>/dev/null
-sudo systemctl disable hysteria 2>/dev/null
-sudo systemctl disable hysteria1 2>/dev/null
-sudo systemctl disable hysteria2 2>/dev/null
-sudo systemctl disable hysteria3 2>/dev/null
-sudo systemctl disable hysteria4 2>/dev/null
-sudo systemctl disable hysteria5 2>/dev/null
-sudo systemctl disable hysteria6 2>/dev/null
-sudo systemctl disable hysteria7 2>/dev/null
-sudo systemctl disable hysteria8 2>/dev/null
-sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config1.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config2.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config3.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config4.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config5.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config6.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config7.yaml 2>/dev/null
-sudo rm /etc/hysteria/iran-config8.yaml 2>/dev/null
+
 read -p "Are you installing on the Iranian server or the Foreign server? (Iran/Foreign): " SERVER_TYPE
 
 SERVER_TYPE=$(echo "$SERVER_TYPE" | tr '[:upper:]' '[:lower:]')
