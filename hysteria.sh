@@ -121,7 +121,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
   IP_VERSION=$(echo "$IP_VERSION" | tr '[:upper:]' '[:lower:]')
 
   if [[ "$IP_VERSION" == "ipv4" ]]; then
-    REMOTE_IP="[::]"
+    REMOTE_IP="localhost"
   else
     REMOTE_IP="[::]"
   fi
