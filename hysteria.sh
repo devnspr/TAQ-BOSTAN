@@ -95,20 +95,7 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
   read -p "Please enter the Hysteria port (e.g. 443): " H_PORT
   read -p "Please enter a password for Hysteria: " H_PASSWORD
 
-
-    cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
-listen: ":$H_PORT"
-tls:
-  cert: /etc/hysteria/self.crt
-  key: /etc/hysteria/self.key
-auth:
-  type: password
-  password: "$H_PASSWORD"
-speedTest: true
-
-EOF
-  else
-    cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
+  cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
 tls:
   cert: /etc/hysteria/self.crt
@@ -118,7 +105,6 @@ auth:
   password: "$H_PASSWORD"
 speedTest: true
 EOF
-  fi
   
 
 
