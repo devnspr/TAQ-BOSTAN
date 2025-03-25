@@ -18,7 +18,7 @@
 [فارسی](https://github.com/ParsaKSH/TAQ-BOSTAN/blob/main/README.md)
 
 # 🚀 TAQ-BOSTAN Project
-### The most untraceable tunnel to bypass censorship
+###  A powerful and stealthy tunneling system designed to bypass advanced censorship and DPI.
 
 ---
 
