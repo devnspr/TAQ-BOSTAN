@@ -186,7 +186,10 @@ Reboot the server
 
 <details>
 <summary>Contact</summary>
-For any questions or issues, ask in the OP-Iran group.💬 OP-Iran Group: OPIranClub
+For any questions or issues, ask in the OP-Iran group.💬 
+OP-Iran Group:
+
+[OPIranClub](https://t.me/opiranclub)
 
 
 </details>
@@ -229,7 +232,7 @@ Very high quality and low cost 💰
 🎯 Build your project on a reliable infrastructure with peace of mind.
 
 📎 Register & buy using the link below:
-👉 https://client.digitalvps.ir/aff.php?aff=52
+👉 [https://client.digitalvps.ir/aff.php?aff=52](https://client.digitalvps.ir/aff.php?aff=52)
 
 
 ---
