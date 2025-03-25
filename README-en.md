@@ -242,6 +242,14 @@ Very high quality and low cost 💰
 <details>
 <summary>Wallet Addresses</summary>If this project was useful to you, you can support it using the wallets below:
 
+
+ | Currency | Wallet Address |
+ |---------|----------------|
+ | **Tron** | `TD3vY9Drpo3eLi8z2LtGT9Vp4ESuF2AEgo` |
+ | **USDT(ERC20)** | `0x800680F566A394935547578bc5599D98B139Ea22` |
+ | **TON** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
+ | **BTC** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
+
 Thank you for your support ❤️
 
 </details>
