@@ -55,7 +55,10 @@ Please, please, please use TLS on your client-side configs. This is vital to pro
 ---
 
 <details>
-<summary>✅ Usage Instructions</summary>🔒 Part 1: Secure & Fast Tunnel with Hysteria2
+<summary>✅ Usage Instructions</summary>
+  
+---
+🔒 Part 1: Secure & Fast Tunnel with Hysteria2
 
 <details>
 <summary>✅ Usage Instructions</summary>📌 Benefits:
