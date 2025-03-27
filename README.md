@@ -244,4 +244,4 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 
 
 
-[![Stargazers over time](https://starchart.cc/ParsaKSH/TAQ-BOSTAN.svg?background=%23FFFFFF&axis=%23333333&line=%2329f400)](https://starchart.cc/ParsaKSH/TAQ-BOSTAN)
+[![Stargazers over time](https://starchart.cc/ParsaKSH/TAQ-BOSTAN.svg?background=%23333333&axis=%23ffffff&line=%2329f400)](https://starchart.cc/ParsaKSH/TAQ-BOSTAN)
