@@ -284,4 +284,4 @@ Good luck on your journey! 🚀✨
 Iran, Kermanshah
 
 
-![Star History Chart](https://api.star-history.com/svg?repos=ParsaKSH/TAQ-BOSTAN&type=Date)
+[![Star History Chart](https://starchart.cc/ParsaKSH/TAQ-BOSTAN.svg?variant=adaptive)](https://starchart.cc/ParsaKSH/TAQ-BOSTAN)
