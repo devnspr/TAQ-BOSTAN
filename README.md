@@ -1,3 +1,5 @@
+
+
 <div align="center">
 <img src="https://github.com/user-attachments/assets/acc27110-4275-4751-937b-cdc63704164f" width="300" />
 </div>
@@ -239,3 +241,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 
 ![image](https://github.com/user-attachments/assets/f9f4e79a-0dd4-47ca-862a-8af8504a355a)
 ایران، کرمانشاه
+
+
+
+![Star History Chart](https://api.star-history.com/svg?repos=ParsaKSH/TAQ-BOSTAN&type=Date)
