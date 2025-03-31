@@ -242,7 +242,7 @@ Very high quality and low cost 💰
 
 ❤️ Support the Project
 
-<details>
+
 <summary>Wallet Addresses</summary>If this project was useful to you, you can support it using the wallets below:
 
 
@@ -253,9 +253,14 @@ Very high quality and low cost 💰
  | **TON** | `UQAm3obHuD5kWf4eE4JmAO_5rkQdZPhaEpmRWs6Rk8vGQJog` |
  | **BTC** | `bc1qaquv5vg35ua7qnd3wlueytw0fugpn8qkkuq9r2` |
 
+<div align="right">
+ <a href="https://nowpayments.io/donation?api_key=FH429FA-35N4AGZ-MFMRQ3Q-2H4BF98" target="_blank" rel="noreferrer noopener">
+    <img src="https://nowpayments.io/images/embeds/donation-button-white.svg" width="200" alt="Crypto donation button by NOWPayments">
+</a>
+</div>
+
 Thank you for your support ❤️
 
-</details>
 
 ---
 
