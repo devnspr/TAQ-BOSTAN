@@ -80,14 +80,8 @@ execute_option() {
         sudo systemctl disable hysteria 2>/dev/null
       done
       sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config1.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config2.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config3.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config4.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config5.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config6.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config7.yaml 2>/dev/null
-      sudo rm /etc/hysteria/iran-config8.yaml 2>/dev/null
+      for i in {1..8}; do
+      sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
       echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
       sudo reboot
       ;;
