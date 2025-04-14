@@ -178,7 +178,7 @@ tls:
 
 quic:
   initStreamReceiveWindow: 8388608
-  maxIdleTimeout: 10s
+  maxIdleTimeout: 11s
   keepAliveInterval: 10s
 
 tcpForwarding:
