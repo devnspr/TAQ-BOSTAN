@@ -88,7 +88,7 @@ if [ "$SERVER_TYPE" == "iran" ]; then
         break
         ;;
       2)
-        REMOTE_IP="::"
+        REMOTE_IP="[::]"
         break
         ;;
       *)
