@@ -177,9 +177,13 @@ tls:
   insecure: true
 
 quic:
-  initStreamReceiveWindow: 8388608
+  initStreamReceiveWindow: 67108864
+  maxStreamReceiveWindow: 67108864
+  initConnReceiveWindow: 134217728
+  maxConnReceiveWindow: 134217728
   maxIdleTimeout: 11s
   keepAliveInterval: 10s
+  disablePathMTUDiscovery: false
 
 tcpForwarding:
 $TCP_FORWARD
