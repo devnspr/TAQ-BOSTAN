@@ -82,6 +82,7 @@ execute_option() {
       sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
       for i in {1..8}; do
       sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
+      done
       echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
        sudo shutdown -r now
        ;;
