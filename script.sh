@@ -82,8 +82,8 @@ execute_option() {
       sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
       for i in {1..8}; do
       sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
-            echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
-       sudo reboot
+      echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
+       sudo shutdown -r now
        ;;
      5)
        echo -e "${CYAN}Deleting local IPv6 with Sit...${RESET}"
