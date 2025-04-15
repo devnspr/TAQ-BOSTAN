@@ -1,5 +1,8 @@
 #!/bin/bash
+set -Eeuo pipefail
+trap 'colorEcho "Script terminated prematurely." red' ERR
 
+# ------------------ Color Output Function ------------------
 colorEcho() {
   local text="$1"
   local color="$2"
@@ -10,72 +13,117 @@ colorEcho() {
     blue)    echo -e "\e[34m${text}\e[0m" ;;
     magenta) echo -e "\e[35m${text}\e[0m" ;;
     cyan)    echo -e "\e[36m${text}\e[0m" ;;
-    white)   echo -e "\e[37m${text}\e[0m" ;;
-    *)       echo "${text}" ;;
+    *)       echo "$text" ;;
   esac
 }
 
-
+# ------------------ Initialization ------------------
 ARCH=$(uname -m)
-
-
 HYSTERIA_VERSION_AMD64="https://github.com/apernet/hysteria/releases/download/app%2Fv2.6.1/hysteria-linux-amd64"
 HYSTERIA_VERSION_ARM="https://github.com/apernet/hysteria/releases/download/app%2Fv2.6.1/hysteria-linux-arm"
 HYSTERIA_VERSION_ARM64="https://github.com/apernet/hysteria/releases/download/app%2Fv2.6.1/hysteria-linux-arm64"
 
-DOWNLOAD_URL=""
-
 case "$ARCH" in
-  x86_64)
-    DOWNLOAD_URL="$HYSTERIA_VERSION_AMD64"
-    ;;
-  armv7l|armv6l)
-    DOWNLOAD_URL="$HYSTERIA_VERSION_ARM"
-    ;;
-  aarch64)
-    DOWNLOAD_URL="$HYSTERIA_VERSION_ARM64"
-    ;;
+  x86_64)   DOWNLOAD_URL="$HYSTERIA_VERSION_AMD64" ;;
+  armv7l|armv6l) DOWNLOAD_URL="$HYSTERIA_VERSION_ARM" ;;
+  aarch64)  DOWNLOAD_URL="$HYSTERIA_VERSION_ARM64" ;;
   *)
-    colorEcho "System architecture '$ARCH' was not recognized or is not supported in this script." red
-    colorEcho "Please replace with the correct link manually." yellow
+    colorEcho "Unsupported architecture: $ARCH" red
     exit 1
     ;;
 esac
 
-colorEcho "Downloading hysteria binary for architecture: $ARCH" cyan
-wget -O hysteria "$DOWNLOAD_URL"
-if [ $? -ne 0 ]; then
-  colorEcho "Failed to download hysteria file. Please check." red
+colorEcho "Downloading Hysteria binary for: $ARCH" cyan
+if ! curl -fsSL "$DOWNLOAD_URL" -o hysteria; then
+  colorEcho "Failed to download hysteria binary." red
   exit 1
 fi
-
 chmod +x hysteria
 sudo mv hysteria /usr/local/bin/
-sudo mkdir /etc/hysteria/
 
-read -p "Are you installing on the Iranian server or the Foreign server? (Iran/Foreign): " SERVER_TYPE
+sudo mkdir -p /etc/hysteria/
+sudo mkdir -p /var/log/
+sudo mkdir -p /var/log/hysteria/
 
-SERVER_TYPE=$(echo "$SERVER_TYPE" | tr '[:upper:]' '[:lower:]')
+# ------------------ Server Type Menu ------------------
+while true; do
+  echo ""
+  echo "Select server type:"
+  echo "  [1] Iran"
+  echo "  [2] Foreign"
+  echo "  [3] Exit"
+  read -rp "Enter your choice [1-3]: " SERVER_CHOICE
 
-declare -A SERVER_INFO_INDEXED=()
+  case "$SERVER_CHOICE" in
+    1)
+      SERVER_TYPE="iran"
+      break
+      ;;
+    2)
+      SERVER_TYPE="foreign"
+      break
+      ;;
+    3)
+      colorEcho "Exiting..." yellow
+      exit 0
+      ;;
+    *)
+      colorEcho "Invalid selection. Please enter 1, 2, or 3." red
+      ;;
+  esac
+done
 
+# ------------------ IP Version Menu (Only for Iran) ------------------
+if [ "$SERVER_TYPE" == "iran" ]; then
+  while true; do
+    echo ""
+    echo "Select IP version for remote connection:"
+    echo "  [1] IPv4"
+    echo "  [2] IPv6"
+    read -rp "Enter your choice [1-2]: " IP_VERSION_CHOICE
+
+    case "$IP_VERSION_CHOICE" in
+      1)
+        REMOTE_IP="0.0.0.0"
+        break
+        ;;
+      2)
+        REMOTE_IP="::"
+        break
+        ;;
+      *)
+        colorEcho "Invalid selection. Please enter 1 or 2." red
+        ;;
+    esac
+  done
+fi
+
+# ------------------ Foreign Server Setup ------------------
 if [ "$SERVER_TYPE" == "foreign" ]; then
+  colorEcho "Setting up foreign server..." green
 
-  colorEcho "You are setting up the foreign server..." green
+  if ! command -v openssl &> /dev/null; then
+    sudo apt update -y && sudo apt install -y openssl
+  fi
 
-  sudo mkdir -p /etc/hysteria/
-
-  sudo apt update -y
-  sudo apt install -y openssl
-
-  colorEcho "Creating a self-signed certificate..." cyan
-  sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+  colorEcho "Generating self-signed certificate..." cyan
+  sudo openssl req -x509 -nodes -days 3650 -newkey ed25519 \
     -keyout /etc/hysteria/self.key \
     -out /etc/hysteria/self.crt \
     -subj "/CN=myserver"
+  sudo chmod 600 /etc/hysteria/self.key
+  sudo chmod 600 /etc/hysteria/self.crt
 
-  read -p "Please enter the Hysteria port (e.g. 443): " H_PORT
-  read -p "Please enter a password for Hysteria: " H_PASSWORD
+  while true; do
+    read -p "Enter Hysteria port ex.(443) or (1-65535): " H_PORT
+    if [[ "$H_PORT" =~ ^[0-9]+$ ]] && (( H_PORT > 0 && H_PORT < 65536 )); then
+      break
+    else
+      colorEcho "Invalid port. Try again." red
+    fi
+  done
+
+  read -p "Enter password: " H_PASSWORD
 
   cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
@@ -85,10 +133,16 @@ tls:
 auth:
   type: password
   password: "$H_PASSWORD"
+quic:
+  initStreamReceiveWindow: 67108864
+  maxStreamReceiveWindow: 67108864
+  initConnReceiveWindow: 134217728
+  maxConnReceiveWindow: 134217728
+  maxIdleTimeout: 20s
+  keepAliveInterval: 15s
+  disablePathMTUDiscovery: false
 speedTest: true
 EOF
-  
-
 
   cat << EOF | sudo tee /etc/systemd/system/hysteria.service > /dev/null
 [Unit]
@@ -101,6 +155,8 @@ ExecStart=/usr/local/bin/hysteria server -c /etc/hysteria/server-config.yaml
 Restart=always
 RestartSec=5
 LimitNOFILE=1048576
+StandardOutput=file:/var/log/hysteria.log
+StandardError=file:/var/log/hysteria.err
 
 [Install]
 WantedBy=multi-user.target
@@ -109,42 +165,31 @@ EOF
   sudo systemctl daemon-reload
   sudo systemctl enable hysteria
   sudo systemctl start hysteria
-  (crontab -l 2>/dev/null; echo "0 */3 * * * /usr/bin/systemctl restart hysteria") | crontab -
+  sudo systemctl reload-or-restart hysteria
 
-  colorEcho "Foreign server has been successfully configured." green
+  colorEcho "Foreign server setup completed." green
 
+# ------------------ Iranian Client Setup ------------------
 elif [ "$SERVER_TYPE" == "iran" ]; then
-
-  colorEcho "You are setting up the Iranian server..." green
-
-  read -p "Do you want to use IPv4 or IPv6 for remote addresses? (IPv4/IPv6): " IP_VERSION
-  IP_VERSION=$(echo "$IP_VERSION" | tr '[:upper:]' '[:lower:]')
-
-  if [[ "$IP_VERSION" == "ipv4" ]]; then
-    REMOTE_IP="localhost"
-  else
-    REMOTE_IP="[::]"
-  fi
+  colorEcho "Setting up Iranian server..." green
 
   read -p "How many foreign servers do you have? " SERVER_COUNT
 
-  for (( i=1; i<=$SERVER_COUNT; i++ ))
-  do
-    colorEcho "Foreign server number $i:" cyan
-    
-    if [[ "$IP_VERSION" == "ipv4" ]]; then
-      read -p "Please enter the IPv4 of this foreign server: " FOREIGN_IP
-      SERVER_ADDRESS="$FOREIGN_IP"
-    else
-      read -p "Please enter the IPv6 of this foreign server: " FOREIGN_IPV6
-      SERVER_ADDRESS="[$FOREIGN_IPV6]"
-    fi
-    
-    read -p "Please enter the Hysteria port used on the foreign server: " FOREIGN_PORT
-    read -p "Please enter the Hysteria password used on the foreign server: " FOREIGN_PASSWORD
-    read -p "Please enter the SNI (e.g. example.com): " FOREIGN_SNI
+  for (( i=1; i<=SERVER_COUNT; i++ )); do
+    colorEcho "Foreign server #$i:" cyan
+    while true; do
+      read -p "Enter IP Address for Foreign server: " SERVER_ADDRESS
+      if [[ "$SERVER_ADDRESS" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ || "$SERVER_ADDRESS" =~ ^[0-9a-fA-F:]+$ ]]; then
+        break
+      else
+        colorEcho "Invalid IP address" red
+      fi
+    done
 
-    read -p "How many ports do you want to tunnel for this server? " PORT_FORWARD_COUNT
+    read -p "Hysteria Port ex.(443): " PORT
+    read -p "Password: " PASSWORD
+    read -p "SNI ex.(google.com): " SNI
+    read -p "Total request forwarding ports ex.(1) " PORT_FORWARD_COUNT
 
     TCP_FORWARD=""
     UDP_FORWARD=""
@@ -167,15 +212,16 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
         FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
       fi
     done
+    
+    CONFIG_FILE="/etc/hysteria/iran-config${i}.yaml"
+    SERVICE_FILE="/etc/systemd/system/hysteria${i}.service"
 
-    IRAN_CONFIG="/etc/hysteria/iran-config${i}.yaml"
-    sudo bash -c "cat << EOF > $IRAN_CONFIG
-server: \"$SERVER_ADDRESS:$FOREIGN_PORT\"
-auth: \"$FOREIGN_PASSWORD\"
+    cat << EOF | sudo tee "$CONFIG_FILE" > /dev/null
+server: "$SERVER_ADDRESS:$PORT"
+auth: "$PASSWORD"
 tls:
-  sni: \"$FOREIGN_SNI\"
+  sni: "$SNI"
   insecure: true
-
 quic:
   initStreamReceiveWindow: 67108864
   maxStreamReceiveWindow: 67108864
@@ -184,60 +230,39 @@ quic:
   maxIdleTimeout: 11s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
-
+  
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
 $UDP_FORWARD
-EOF"
+EOF
 
-    IRAN_SERVICE="/etc/systemd/system/hysteria${i}.service"
-    sudo bash -c "cat << EOF > $IRAN_SERVICE
+    cat << EOF | sudo tee "$SERVICE_FILE" > /dev/null
 [Unit]
-Description=Hysteria2 Foreign Server ${i}
+Description=Hysteria2 Client $i
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/hysteria client -c /etc/hysteria/iran-config${i}.yaml
+ExecStart=/usr/local/bin/hysteria client -c $CONFIG_FILE
 Restart=always
 RestartSec=5
 LimitNOFILE=1048576
+StandardOutput=file:/var/log/hysteria${i}.log
+StandardError=file:/var/log/hysteria${i}.err
 
 [Install]
 WantedBy=multi-user.target
-EOF"
-
-    (crontab -l 2>/dev/null; echo "0 4 * * * /usr/bin/systemctl restart hysteria${i}") | crontab -
+EOF
 
     sudo systemctl daemon-reload
     sudo systemctl enable hysteria${i}
     sudo systemctl start hysteria${i}
-
-    SERVER_INFO_INDEXED["server_${i}_info"]="$FOREIGN_PORT|$FOREIGN_PASSWORD|$FOREIGN_SNI|$FORWARDED_PORTS"
+    sudo systemctl reload-or-restart hysteria${i}
   done
 
-  colorEcho "Iranian server has been successfully configured." green
-
-  colorEcho "===================================" magenta
-  colorEcho "   Tunnels Created on Iran Server  " magenta
-  colorEcho "===================================" magenta
-
-  echo -e "\e[34m| Server # | Hysteria Port | Password         | SNI             | Forwarded Ports          |\e[0m"
-  echo -e "\e[34m----------------------------------------------------------------------------------------\e[0m"
-
-  for (( i=1; i<=$SERVER_COUNT; i++ ))
-  do
-    INFO="${SERVER_INFO_INDEXED["server_${i}_info"]}"
-    IFS='|' read -r port pass sni forwards <<< "$INFO"
-
-    echo -e "|     \e[32m$i\e[0m     |     \e[32m$port\e[0m      | \e[32m$pass\e[0m | \e[32m$sni\e[0m | \e[32m$forwards\e[0m "
-  done
-
-  echo ""
-  colorEcho "Done." cyan
-
+  colorEcho "Tunnels set up successfully." green
 else
-  colorEcho "Invalid answer. Please enter only 'Iran' or 'Foreign'." red
+  colorEcho "Invalid server type. Please enter 'Iran' or 'Foreign'." red
   exit 1
 fi
