@@ -41,7 +41,6 @@ print_art() {
   echo -e "\033[1;33mLove Iran :)"
   echo -e "\033[0m"
 }
-
 print_menu() {
   draw_green_line
   echo -e "${GREEN}|${RESET}              ${BOLD_GREEN}TAQ-BOSTAN Main Menu${RESET}                  ${GREEN}|${RESET}"
@@ -63,15 +62,15 @@ execute_option() {
   case "$choice" in
     1)
       echo -e "${CYAN}Executing: Create best and safest tunnel...${RESET}"
-      bash <(curl -Ls https://raw.githubusercontent.com/Shellgate/TAQ-BOSTAN/main/hysteria.sh)
+      bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/hysteria.sh)
       ;;
     2)
       echo -e "${CYAN}Executing: Create local IPv6 with Sit...${RESET}"
-      bash <(curl -Ls https://raw.githubusercontent.com/Shellgate/TAQ-BOSTAN/main/sit.sh)
+      bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/sit.sh)
       ;;
     3)
       echo -e "${CYAN}Executing: Create local IPv6 with Wireguard...${RESET}"
-      bash <(curl -Ls https://raw.githubusercontent.com/Shellgate/TAQ-BOSTAN/main/wireguard.sh)
+      bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/wireguard.sh)
       ;;
     4)
       echo -e "${CYAN}Deleting Hysteria tunnel...${RESET}"
@@ -82,24 +81,7 @@ execute_option() {
       done
       sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
       for i in {1..8}; do
-        sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
-      done
-      echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
-      reboot_choice=$(ask_yes_no "Operation completed successfully. Please reboot the system")
-      if [ "$reboot_choice" == "yes" ]; then
-        echo -e "\033[1;33mRebooting the system...\033[0m"
-        sudo reboot
-      else 
-        echo -e ""
-      fi
-      ;;
-    5)
-      echo -e "${CYAN}Deleting local IPv6 with Sit...${RESET}"
-      for i in {,1,2,3,4,5,6,7,8}; do
-        sudo rm /etc/netplan/pdtun$i.yaml 2>/dev/null
-        sudo rm /etc/systemd/network/tun$i.network 2>/dev/null
-        sudo rm /etc/netplan/pdtun.yaml 2>/dev/null
-        sudo rm /etc/systemd/network/tun0.network 2>/dev/n
+      sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
       done
       echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
@@ -107,15 +89,45 @@ execute_option() {
         sudo shutdown -r now
       fi
       ;;
-
-    7)
-      read -p "For which foreign server number do you want to run the speedtest? " server_number
-      /usr/local/bin/hysteria -c /etc/hysteria/iran-config${server_number}.yaml speedtest
-      ;;
-    *)
-      echo -e "${RED}Invalid option. Exiting...${RESET}"
-      exit 1
-      ;;
-  esac
-}
-
+     5)
+       echo -e "${CYAN}Deleting local IPv6 with Sit...${RESET}"
+       for i in {,1,2,3,4,5,6,7,8}; do
+         sudo rm /etc/netplan/pdtun$i.yaml 2>/dev/null
+         sudo rm /etc/systemd/network/tun$i.network 2>/dev/null
+         sudo rm /etc/netplan/pdtun.yaml 2>/dev/null
+         sudo rm /etc/systemd/network/tun0.network 2>/dev/null
+       done
+       sudo netplan apply 
+       sudo systemctl restart systemd-networkd
+       echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
+       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
+       if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
+         sudo shutdown -r now
+       fi
+       ;;
+     6)
+       echo -e "${CYAN}Deleting local IPv6 with Wireguard...${RESET}"
+       sudo wg-quick down TAQBOSTANwg 2>/dev/null
+       sudo systemctl disable wg-quick@TAQBOSTANwg 2>/dev/null
+       sudo rm /etc/wireguard/TAQBOSTANwg.conf 2>/dev/null
+       echo -e "${GREEN}Local IPv6 with Wireguard successfully deleted.${RESET}"
+       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
+       if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
+         sudo shutdown -r now
+       fi
+       ;;
+     7)
+       read -p "For which foreign server number do you want to run the speedtest? " server_number
+       /usr/local/bin/hysteria -c /etc/hysteria/iran-config${server_number}.yaml speedtest
+       ;;
+     *)
+       echo -e "${RED}Invalid option. Exiting...${RESET}"
+       exit 1
+       ;;
+   esac
+ }
+ 
+ print_art
+ print_menu
+ read -p "$(echo -e "${WHITE}Select an option [1-7]: ${RESET}")" user_choice
+ execute_option "$user_choice"
