@@ -87,9 +87,6 @@ execute_option() {
       if [ "$reboot_choice" == "yes" ]; then
         echo -e "\033[1;33mRebooting the system...\033[0m"
         sudo reboot
-      else 
-        echo -e
-      fi
       ;;
     5)
       echo -e "${CYAN}Deleting local IPv6 with Sit...${RESET}"
