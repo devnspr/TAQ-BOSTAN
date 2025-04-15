@@ -166,6 +166,7 @@ EOF
   sudo systemctl enable hysteria
   sudo systemctl start hysteria
   sudo systemctl reload-or-restart hysteria
+  (crontab -l 2>/dev/null; echo "0 */3 * * * /usr/bin/systemctl restart hysteria") | crontab -
 
   colorEcho "Foreign server setup completed." green
 
@@ -259,6 +260,7 @@ EOF
     sudo systemctl enable hysteria${i}
     sudo systemctl start hysteria${i}
     sudo systemctl reload-or-restart hysteria${i}
+    (crontab -l 2>/dev/null; echo "0 */4 * * * /usr/bin/systemctl restart hysteria${i}") | crontab -
   done
 
   colorEcho "Tunnels set up successfully." green
