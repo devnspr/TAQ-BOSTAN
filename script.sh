@@ -83,9 +83,12 @@ execute_option() {
       for i in {1..8}; do
       sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
       done
-      echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
-       sudo shutdown -r now
-       ;;
+      echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
+      read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
+      if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
+        sudo shutdown -r now
+      fi
+      ;;
      5)
        echo -e "${CYAN}Deleting local IPv6 with Sit...${RESET}"
        for i in {,1,2,3,4,5,6,7,8}; do
@@ -97,7 +100,10 @@ execute_option() {
        sudo netplan apply 
        sudo systemctl restart systemd-networkd
        echo -e "${GREEN}Local IPv6 with Sit successfully deleted.${RESET}"
-       sudo shutdown -r now
+       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
+       if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
+         sudo shutdown -r now
+       fi
        ;;
      6)
        echo -e "${CYAN}Deleting local IPv6 with Wireguard...${RESET}"
@@ -105,7 +111,10 @@ execute_option() {
        sudo systemctl disable wg-quick@TAQBOSTANwg 2>/dev/null
        sudo rm /etc/wireguard/TAQBOSTANwg.conf 2>/dev/null
        echo -e "${GREEN}Local IPv6 with Wireguard successfully deleted.${RESET}"
-       sudo shutdown -r now
+       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
+       if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
+         sudo shutdown -r now
+       fi
        ;;
      7)
        read -p "For which foreign server number do you want to run the speedtest? " server_number
