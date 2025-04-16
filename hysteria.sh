@@ -98,6 +98,22 @@ if [ "$SERVER_TYPE" == "iran" ]; then
   done
 fi
 
+# ------------------ Obfuscation Option ------------------
+read -p "Do you want to enable Obfuscation (obfs)? [y/N]: " ENABLE_OBFS
+ENABLE_OBFS=$(echo "$ENABLE_OBFS" | tr '[:upper:]' '[:lower:]')
+
+if [[ "$ENABLE_OBFS" == "y" || "$ENABLE_OBFS" == "yes" ]]; then
+  OBFS_CONFIG=$(cat <<EOF
+obfs:
+  type: salamander
+  salamander:
+    password: "__REPLACE_PASSWORD__"
+EOF
+)
+else
+  OBFS_CONFIG=""
+fi
+
 # ------------------ Foreign Server Setup ------------------
 if [ "$SERVER_TYPE" == "foreign" ]; then
   colorEcho "Setting up foreign server..." green
@@ -133,10 +149,7 @@ tls:
 auth:
   type: password
   password: "$H_PASSWORD"
-obfs:
-  type: salamander
-  salamander:
-    password: "$H_PASSWORD"
+$(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$H_PASSWORD/")
 quic:
   initStreamReceiveWindow: 67108864
   maxStreamReceiveWindow: 67108864
@@ -227,10 +240,7 @@ auth: "$PASSWORD"
 tls:
   sni: "$SNI"
   insecure: true
-obfs:
-  type: salamander
-  salamander:
-    password: "$PASSWORD"
+$(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$PASSWORD/")
 quic:
   initStreamReceiveWindow: 67108864
   maxStreamReceiveWindow: 67108864
