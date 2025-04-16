@@ -243,9 +243,12 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     do
       read -p "Enter port number #$p you want to tunnel: " TUNNEL_PORT
 
-      TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT\n    remote: '$REMOTE_IP:$TUNNEL_PORT'\n"
-      UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT\n    remote: '$REMOTE_IP:$TUNNEL_PORT'\n"
-
+      TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
+    remote: '$REMOTE_IP:$TUNNEL_PORT'
+"
+      UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
+    remote: '$REMOTE_IP:$TUNNEL_PORT'
+"
       if [ -z "$FORWARDED_PORTS" ]; then
         FORWARDED_PORTS="$TUNNEL_PORT"
       else
