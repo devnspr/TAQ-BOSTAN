@@ -113,7 +113,41 @@ EOF
 else
   OBFS_CONFIG=""
 fi
+# ------------------ QUIC Settings Based on Usage ------------------
+echo ""
+echo "Choose your usage type for optimal QUIC tuning:"
+echo "  [1] Normal (Gaming, Browsing, Stream up to 1080p)"
+echo "  [2] Heavy (File Transfer, Multiple Clients, Backup, 4K Streaming)"
+read -rp "Enter your choice [1-2]: " USAGE_CHOICE
 
+case "$USAGE_CHOICE" in
+  2)
+    QUIC_SETTINGS=$(cat <<EOF
+quic:
+  initStreamReceiveWindow: 16777216
+  maxStreamReceiveWindow: 33554432
+  initConnReceiveWindow: 33554432
+  maxConnReceiveWindow: 67108864
+  maxIdleTimeout: 15s
+  keepAliveInterval: 10s
+  disablePathMTUDiscovery: false
+EOF
+)
+    ;;
+  *)
+    QUIC_SETTINGS=$(cat <<EOF
+quic:
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 16777216
+  initConnReceiveWindow: 16777216
+  maxConnReceiveWindow: 33554432
+  maxIdleTimeout: 15s
+  keepAliveInterval: 10s
+  disablePathMTUDiscovery: false
+EOF
+)
+    ;;
+esac
 # ------------------ Foreign Server Setup ------------------
 if [ "$SERVER_TYPE" == "foreign" ]; then
   colorEcho "Setting up foreign server..." green
@@ -156,14 +190,7 @@ auth:
   type: password
   password: "$H_PASSWORD"
 $(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$H_PASSWORD/")
-quic:
-  initStreamReceiveWindow: 8388608
-  maxStreamReceiveWindow: 16777216
-  initConnReceiveWindow: 16777216
-  maxConnReceiveWindow: 33554432
-  maxIdleTimeout: 15s
-  keepAliveInterval: 10s
-  disablePathMTUDiscovery: false
+$(echo "$QUIC_SETTINGS")
 speedTest: true
 EOF
 
@@ -267,14 +294,7 @@ tls:
   sni: "$SNI"
   insecure: true
 $(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$PASSWORD/")
-quic:
-  initStreamReceiveWindow: 8388608
-  maxStreamReceiveWindow: 16777216
-  initConnReceiveWindow: 16777216
-  maxConnReceiveWindow: 33554432
-  maxIdleTimeout: 15s
-  keepAliveInterval: 10s
-  disablePathMTUDiscovery: false
+$(echo "$QUIC_SETTINGS")
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
