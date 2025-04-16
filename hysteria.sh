@@ -1,6 +1,6 @@
 #!/bin/bash
 set -Eeuo pipefail
-trap 'colorEcho "Script terminated prematurely." red' ERR
+trap 'colorEcho "Script terminated prematurely." red' ERR SIGINT SIGTERM
 
 # ------------------ Color Output Function ------------------
 colorEcho() {
@@ -42,8 +42,8 @@ chmod +x hysteria
 sudo mv hysteria /usr/local/bin/
 
 sudo mkdir -p /etc/hysteria/
-sudo mkdir -p /var/log/
 sudo mkdir -p /var/log/hysteria/
+sudo mkdir -p /var/log/
 
 # ------------------ Server Type Menu ------------------
 while true; do
@@ -127,8 +127,7 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
     -keyout /etc/hysteria/self.key \
     -out /etc/hysteria/self.crt \
     -subj "/CN=myserver"
-  sudo chmod 600 /etc/hysteria/self.key
-  sudo chmod 600 /etc/hysteria/self.crt
+  sudo chmod 600 /etc/hysteria/self.*
 
   while true; do
     read -p "Enter Hysteria port ex.(443) or (1-65535): " H_PORT
@@ -139,7 +138,14 @@ if [ "$SERVER_TYPE" == "foreign" ]; then
     fi
   done
 
-  read -p "Enter password: " H_PASSWORD
+  while true; do
+    read -p "Enter password: " H_PASSWORD
+    if [[ -z "$H_PASSWORD" ]]; then
+      colorEcho "Password cannot be empty. Please enter a valid password." red
+    else
+      break
+    fi
+  done
 
   cat << EOF | sudo tee /etc/hysteria/server-config.yaml > /dev/null
 listen: ":$H_PORT"
@@ -151,13 +157,18 @@ auth:
   password: "$H_PASSWORD"
 $(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$H_PASSWORD/")
 quic:
-  initStreamReceiveWindow: 67108864
-  maxStreamReceiveWindow: 67108864
-  initConnReceiveWindow: 134217728
-  maxConnReceiveWindow: 134217728
-  maxIdleTimeout: 20s
-  keepAliveInterval: 15s
-  disablePathMTUDiscovery: false
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 16777216
+  initConnReceiveWindow: 16777216
+  maxConnReceiveWindow: 33554432
+  maxIdleTimeout: 15s
+  keepAliveInterval: 10s
+  disablePathMTUDiscovery: true
+  congestionControl: bbr
+  maxIncomingStreams: 1024
+  maxIncomingUniStreams: 512
+  maxDatagramFrameSize: 8940
+
 speedTest: true
 EOF
 
@@ -185,6 +196,7 @@ EOF
   sudo systemctl reload-or-restart hysteria
   (crontab -l 2>/dev/null | grep -v 'systemctl restart hysteria'; echo "0 */3 * * * /usr/bin/systemctl restart hysteria") | crontab -
 
+
   colorEcho "Foreign server setup completed." green
 
 # ------------------ Iranian Client Setup ------------------
@@ -196,16 +208,25 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
   for (( i=1; i<=SERVER_COUNT; i++ )); do
     colorEcho "Foreign server #$i:" cyan
     while true; do
-      read -p "Enter IP Address for Foreign server: " SERVER_ADDRESS
-      if [[ "$SERVER_ADDRESS" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ || "$SERVER_ADDRESS" =~ ^[0-9a-fA-F:]+$ ]]; then
+      read -p "Enter IP Address or Domain for Foreign server: " SERVER_ADDRESS
+      if [[ "$SERVER_ADDRESS" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ || "$SERVER_ADDRESS" =~ ^[0-9a-fA-F:]+$ || "$SERVER_ADDRESS" =~ ^[a-zA-Z0-9.-]+$ ]]; then
         break
       else
-        colorEcho "Invalid IP address" red
+        colorEcho "Invalid input. Please enter a valid IP or domain." red
       fi
     done
 
     read -p "Hysteria Port ex.(443): " PORT
-    read -p "Password: " PASSWORD
+
+    while true; do
+      read -p "Password: " PASSWORD
+      if [[ -z "$PASSWORD" ]]; then
+        colorEcho "Password cannot be empty. Please enter a valid password." red
+      else
+        break
+      fi
+    done
+
     read -p "SNI ex.(google.com): " SNI
     read -p "Total request forwarding ports ex.(1) " PORT_FORWARD_COUNT
 
@@ -216,13 +237,9 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     for (( p=1; p<=$PORT_FORWARD_COUNT; p++ ))
     do
       read -p "Enter port number #$p you want to tunnel: " TUNNEL_PORT
-      
-      TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
-    remote: '$REMOTE_IP:$TUNNEL_PORT'
-"
-      UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT
-    remote: '$REMOTE_IP:$TUNNEL_PORT'
-"
+
+      TCP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT\n    remote: '$REMOTE_IP:$TUNNEL_PORT'\n"
+      UDP_FORWARD+="  - listen: 0.0.0.0:$TUNNEL_PORT\n    remote: '$REMOTE_IP:$TUNNEL_PORT'\n"
 
       if [ -z "$FORWARDED_PORTS" ]; then
         FORWARDED_PORTS="$TUNNEL_PORT"
@@ -230,7 +247,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
         FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
       fi
     done
-    
+
     CONFIG_FILE="/etc/hysteria/iran-config${i}.yaml"
     SERVICE_FILE="/etc/systemd/system/hysteria${i}.service"
 
@@ -242,14 +259,18 @@ tls:
   insecure: true
 $(echo "$OBFS_CONFIG" | sed "s/__REPLACE_PASSWORD__/$PASSWORD/")
 quic:
-  initStreamReceiveWindow: 67108864
-  maxStreamReceiveWindow: 67108864
-  initConnReceiveWindow: 134217728
-  maxConnReceiveWindow: 134217728
-  maxIdleTimeout: 11s
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 16777216
+  initConnReceiveWindow: 16777216
+  maxConnReceiveWindow: 33554432
+  maxIdleTimeout: 15s
   keepAliveInterval: 10s
-  disablePathMTUDiscovery: false
-  
+  disablePathMTUDiscovery: true
+  congestionControl: bbr
+  maxIncomingStreams: 1024
+  maxIncomingUniStreams: 512
+  maxDatagramFrameSize: 8940
+
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
@@ -279,6 +300,7 @@ EOF
     sudo systemctl start hysteria${i}
     sudo systemctl reload-or-restart hysteria${i}
     (crontab -l 2>/dev/null | grep -v 'systemctl restart hysteria'; echo "0 */4 * * * /usr/bin/systemctl restart hysteria${i}") | crontab -
+
   done
 
   colorEcho "Tunnels set up successfully." green
