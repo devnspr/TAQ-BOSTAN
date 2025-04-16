@@ -65,6 +65,8 @@ Please, please, please use TLS on your client-side configs. This is vital to pro
 
 TLS 1.3 + QUIC encrypted tunnel
 
+Obfusacation
+
 All traffic transferred over a single UDP connection
 
 Prevents server from being flagged or blocked
