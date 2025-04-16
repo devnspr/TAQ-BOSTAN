@@ -133,6 +133,10 @@ tls:
 auth:
   type: password
   password: "$H_PASSWORD"
+obfs:
+  type: salamander
+  salamander:
+    password: "$H_PASSWORD"
 quic:
   initStreamReceiveWindow: 67108864
   maxStreamReceiveWindow: 67108864
@@ -223,6 +227,10 @@ auth: "$PASSWORD"
 tls:
   sni: "$SNI"
   insecure: true
+obfs:
+  type: salamander
+  salamander:
+    password: "$PASSWORD"
 quic:
   initStreamReceiveWindow: 67108864
   maxStreamReceiveWindow: 67108864
