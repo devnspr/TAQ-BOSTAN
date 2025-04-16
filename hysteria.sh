@@ -209,7 +209,13 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     colorEcho "Foreign server #$i:" cyan
     while true; do
       read -p "Enter IP Address or Domain for Foreign server: " SERVER_ADDRESS
-      if [[ "$SERVER_ADDRESS" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ || "$SERVER_ADDRESS" =~ ^[0-9a-fA-F:]+$ || "$SERVER_ADDRESS" =~ ^[a-zA-Z0-9.-]+$ ]]; then
+      if [[ "$SERVER_ADDRESS" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+  
+        break
+      elif [[ "$SERVER_ADDRESS" =~ ^[0-9a-fA-F:]+$ ]]; then
+        SERVER_ADDRESS="[${SERVER_ADDRESS}]"
+        break
+      elif [[ "$SERVER_ADDRESS" =~ ^[a-zA-Z0-9.-]+$ ]]; then
         break
       else
         colorEcho "Invalid input. Please enter a valid IP or domain." red
