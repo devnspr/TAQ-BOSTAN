@@ -304,7 +304,7 @@ EOF
     sudo systemctl enable hysteria${i}
     sudo systemctl start hysteria${i}
     sudo systemctl reload-or-restart hysteria${i}
-    CRON_CMD='0 */3 * * * /usr/bin/systemctl restart hysteria'
+    CRON_CMD="0 */4 * * * /usr/bin/systemctl restart hysteria${i}"
     TMP_FILE=$(mktemp)
 
     crontab -l 2>/dev/null | grep -vF "$CRON_CMD" > "$TMP_FILE" || true
