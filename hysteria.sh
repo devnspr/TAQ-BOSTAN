@@ -163,12 +163,7 @@ quic:
   maxConnReceiveWindow: 33554432
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
-  disablePathMTUDiscovery: true
-  congestionControl: bbr
-  maxIncomingStreams: 1024
-  maxIncomingUniStreams: 512
-  maxDatagramFrameSize: 8940
-
+  disablePathMTUDiscovery: false
 speedTest: true
 EOF
 
@@ -273,12 +268,7 @@ quic:
   maxConnReceiveWindow: 33554432
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
-  disablePathMTUDiscovery: true
-  congestionControl: bbr
-  maxIncomingStreams: 1024
-  maxIncomingUniStreams: 512
-  maxDatagramFrameSize: 8940
-
+  disablePathMTUDiscovery: false
 tcpForwarding:
 $TCP_FORWARD
 udpForwarding:
