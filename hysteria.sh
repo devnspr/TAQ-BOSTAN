@@ -35,21 +35,24 @@ esac
 
 TARGET_VERSION="v2.6.1"
 
+SHOULD_DOWNLOAD=true
 if command -v hysteria &> /dev/null; then
-  INSTALLED_VERSION=$(hysteria --version 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+')
-  if [ "$INSTALLED_VERSION" != "$TARGET_VERSION" ]; then
-    echo "Hysteria version $INSTALLED_VERSION is installed, but $TARGET_VERSION is required."
+  INSTALLED_VERSION=$(hysteria --version 2>/dev/null | grep -oP 'v\d+\.\d+\.\d+')
+  if [ "$INSTALLED_VERSION" = "$TARGET_VERSION" ]; then
+    echo "Hysteria $TARGET_VERSION is already installed."
+    SHOULD_DOWNLOAD=false
+  else
+    echo "Installed Hysteria version: $INSTALLED_VERSION"
+    echo "Required version: $TARGET_VERSION"
     read -p "Do you want to update to $TARGET_VERSION? [y/N]: " UPDATE_CHOICE
     UPDATE_CHOICE=$(echo "$UPDATE_CHOICE" | tr '[:upper:]' '[:lower:]')
     if [[ "$UPDATE_CHOICE" != "y" && "$UPDATE_CHOICE" != "yes" ]]; then
-      SKIP_DOWNLOAD=true
+      SHOULD_DOWNLOAD=false
     fi
-  else
-    SKIP_DOWNLOAD=true
   fi
 fi
 
-if [ "${SKIP_DOWNLOAD:-false}" != "true" ]; then
+if [ "$SHOULD_DOWNLOAD" = true ]; then
   echo "Downloading Hysteria binary for: $ARCH"
   if ! curl -fsSL "$DOWNLOAD_URL" -o hysteria; then
     echo "Failed to download hysteria binary."
