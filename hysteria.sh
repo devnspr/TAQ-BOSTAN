@@ -33,35 +33,19 @@ case "$ARCH" in
     ;;
 esac
 
-TARGET_VERSION="v2.6.1"
-SHOULD_DOWNLOAD=true
-
-if command -v hysteria &> /dev/null; then
-  INSTALLED_VERSION=$(hysteria --version 2>/dev/null | grep -oP 'v\d+\.\d+\.\d+')
-  if [ "$INSTALLED_VERSION" = "$TARGET_VERSION" ]; then
-    echo "Hysteria $TARGET_VERSION is already installed."
-    SHOULD_DOWNLOAD=false
-  else
-    echo "Installed Hysteria version: $INSTALLED_VERSION"
-    echo "Required version: $TARGET_VERSION"
-    read -p "Do you want to update to $TARGET_VERSION? [y/N]: " UPDATE_CHOICE
-    UPDATE_CHOICE=$(echo "$UPDATE_CHOICE" | tr '[:upper:]' '[:lower:]')
-    if [[ "$UPDATE_CHOICE" != "y" && "$UPDATE_CHOICE" != "yes" ]]; then
-      SHOULD_DOWNLOAD=false
-    fi
-  fi
-fi
-
-if [ "$SHOULD_DOWNLOAD" = true ]; then
-  echo "Downloading Hysteria binary for: $ARCH"
-  if ! curl -fsSL "$DOWNLOAD_URL" -o hysteria; then
-    echo "Failed to download hysteria binary."
-    exit 1
-  fi
-  chmod +x hysteria
-  sudo mv hysteria /usr/local/bin/
-fi
-
+if [ -f "/usr/local/bin/hysteria" ]; then
+ colorEcho "Hysteria binary already exists at /usr/local/bin/hysteria. Skipping download." yellow
+ else
+ colorEcho "Downloading Hysteria binary for: $ARCH" cyan
+ if ! curl -fsSL "$DOWNLOAD_URL" -o hysteria; then
+   colorEcho "Failed to download hysteria binary." red
+   exit 1
+ colorEcho "Failed to download hysteria binary." red
+ exit 1
+ fi
+ chmod +x hysteria
+ sudo mv hysteria /usr/local/bin/
+ fi
 sudo mkdir -p /etc/hysteria/
 sudo mkdir -p /var/log/hysteria/
 sudo mkdir -p /var/log/
