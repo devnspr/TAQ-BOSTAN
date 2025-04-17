@@ -34,8 +34,8 @@ case "$ARCH" in
 esac
 
 TARGET_VERSION="v2.6.1"
-
 SHOULD_DOWNLOAD=true
+
 if command -v hysteria &> /dev/null; then
   INSTALLED_VERSION=$(hysteria --version 2>/dev/null | grep -oP 'v\d+\.\d+\.\d+')
   if [ "$INSTALLED_VERSION" = "$TARGET_VERSION" ]; then
