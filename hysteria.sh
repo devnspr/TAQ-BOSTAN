@@ -118,14 +118,29 @@ EOF
 else
   OBFS_CONFIG=""
 fi
+
 # ------------------ QUIC Settings Based on Usage ------------------
 echo ""
 echo "Choose your usage type for optimal QUIC tuning:"
 echo "  [1] Normal (Gaming, Browsing, Stream up to 1080p)"
 echo "  [2] Heavy (File Transfer, Multiple Clients, Backup, 4K Streaming)"
-read -rp "Enter your choice [1-2]: " USAGE_CHOICE
+echo "  [3] Dynamic (For variable networks with connectivity diversity)"
+read -rp "Enter your choice [1-3]: " USAGE_CHOICE
 
 case "$USAGE_CHOICE" in
+  1)
+    QUIC_SETTINGS=$(cat <<EOF
+quic:
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 16777216
+  initConnReceiveWindow: 16777216
+  maxConnReceiveWindow: 33554432
+  maxIdleTimeout: 15s
+  keepAliveInterval: 10s
+  disablePathMTUDiscovery: false
+EOF
+)
+    ;;
   2)
     QUIC_SETTINGS=$(cat <<EOF
 quic:
@@ -139,7 +154,21 @@ quic:
 EOF
 )
     ;;
+  3)
+    QUIC_SETTINGS=$(cat <<EOF
+quic:
+  initStreamReceiveWindow: 10485760
+  maxStreamReceiveWindow: 25165824
+  initConnReceiveWindow: 20971520
+  maxConnReceiveWindow: 50331648
+  maxIdleTimeout: 25s
+  keepAliveInterval: 8s
+  disablePathMTUDiscovery: false
+EOF
+)
+    ;;
   *)
+    echo "Invalid option. Defaulting to Normal settings."
     QUIC_SETTINGS=$(cat <<EOF
 quic:
   initStreamReceiveWindow: 8388608
@@ -153,6 +182,7 @@ EOF
 )
     ;;
 esac
+
 # ------------------ Foreign Server Setup ------------------
 if [ "$SERVER_TYPE" == "foreign" ]; then
   colorEcho "Setting up foreign server..." green
