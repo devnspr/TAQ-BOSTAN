@@ -16,6 +16,22 @@ colorEcho() {
     *)       echo "$text" ;;
   esac
 }
+# ------------------ draw_box_menu ------------------
+draw_box_menu() {
+  local title="$1"
+  shift
+  local options=("$@")
+
+  local width=50
+  echo -e "\e[32m+$(printf '%0.s-' $(seq 1 $width))+"
+  printf "|%s%*s|\n" " $(echo "$title" | tr '[:lower:]' '[:upper:]')" $((width - ${#title} - 1)) ""
+  echo "+$(printf '%0.s-' $(seq 1 $width))+"
+
+  for opt in "${options[@]}"; do
+    printf "| %-47s |\n" "$opt"
+  done
+  echo "+$(printf '%0.s-' $(seq 1 $width))+\e[0m"
+}
 
 # ------------------ Initialization ------------------
 ARCH=$(uname -m)
@@ -52,12 +68,12 @@ sudo mkdir -p /var/log/
 
 # ------------------ Server Type Menu ------------------
 while true; do
-  echo ""
-  echo "Select server type:"
-  echo "  [1] Iran"
-  echo "  [2] Foreign"
-  echo "  [3] Exit"
-  read -rp "Enter your choice [1-3]: " SERVER_CHOICE
+draw_box_menu "Server Type Selection" \
+  "1 | Setup Iranian Server" \
+  "2 | Setup Foreign Server" \
+  "3 | Exit"
+
+read -rp "Enter your choice: " SERVER_CHOICE
 
   case "$SERVER_CHOICE" in
     1)
@@ -81,11 +97,11 @@ done
 # ------------------ IP Version Menu (Only for Iran) ------------------
 if [ "$SERVER_TYPE" == "iran" ]; then
   while true; do
-    echo ""
-    echo "Select IP version for remote connection:"
-    echo "  [1] IPv4"
-    echo "  [2] IPv6"
-    read -rp "Enter your choice [1-2]: " IP_VERSION_CHOICE
+ draw_box_menu "Select IP Version" \
+  "1 | IPv4 (e.g., 0.0.0.0)" \
+  "2 | IPv6 (e.g., [::])"
+read -rp "Enter your choice: " IP_VERSION_CHOICE
+
 
     case "$IP_VERSION_CHOICE" in
       1)
@@ -120,12 +136,11 @@ else
 fi
 
 # ------------------ QUIC Settings Based on Usage ------------------
-echo ""
-echo "Choose expected number of simultaneous users for optimal QUIC performance:"
-echo "  [1] 1 to 50 users (Light load)"
-echo "  [2] 50 to 100 users (Medium load)"
-echo "  [3] 100 to 300 users (Heavy load)"
-read -rp "Enter your choice [1-3]: " USAGE_CHOICE
+draw_box_menu "QUIC Optimization" \
+  "1 | 1-50 Users  (Light Load)" \
+  "2 | 50-100 Users (Medium Load)" \
+  "3 | 100-300 Users (Heavy Load)"
+read -rp "Enter your choice: " USAGE_CHOICE
 
 case "$USAGE_CHOICE" in
   1)
