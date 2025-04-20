@@ -17,20 +17,29 @@ colorEcho() {
   esac
 }
 # ------------------ draw_box_menu ------------------
-draw_box_menu() {
+draw_menu() {
   local title="$1"
   shift
   local options=("$@")
 
-  local width=50
-  echo -e "\e[32m+$(printf '%0.s-' $(seq 1 $width))+"
-  printf "|%s%*s|\n" " $(echo "$title" | tr '[:lower:]' '[:upper:]')" $((width - ${#title} - 1)) ""
-  echo "+$(printf '%0.s-' $(seq 1 $width))+"
+  GREEN='\e[32m'
+  WHITE='\e[37m'
+  RESET='\e[0m'
+
+  local width=45
+  local border_top="+$(printf '%0.s-' $(seq 1 $width))+"
+  local border_mid="+$(printf '%0.s-' $(seq 1 $width))+"
+
+  echo -e "${GREEN}${border_top}${RESET}"
+  printf "${GREEN}| %-*s |\n" $((width - 2)) "${WHITE}${title}${GREEN}"
+  echo -e "${border_mid}${RESET}"
 
   for opt in "${options[@]}"; do
-    printf "| %-47s |\n" "$opt"
+    printf "${GREEN}|${WHITE} %s ${GREEN}|\n" "$(printf '%-*s' $((width - 2)) "$opt")"
   done
-  echo "+$(printf '%0.s-' $(seq 1 $width))+\e[0m"
+
+  echo -e "${border_top}${RESET}"
+  echo -ne "${WHITE}Enter your choice: ${RESET}"
 }
 
 # ------------------ Initialization ------------------
