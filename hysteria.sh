@@ -121,10 +121,10 @@ fi
 
 # ------------------ QUIC Settings Based on Usage ------------------
 echo ""
-echo "Choose your usage type for optimal QUIC tuning:"
-echo "  [1] Normal (Gaming, Browsing, Stream up to 1080p)"
-echo "  [2] Heavy (File Transfer, Multiple Clients, Backup, 4K Streaming)"
-echo "  [3] Dynamic (For variable networks with connectivity diversity)"
+echo "Choose expected number of simultaneous users for optimal QUIC performance:"
+echo "  [1] 1 to 50 users (Light load)"
+echo "  [2] 50 to 100 users (Medium load)"
+echo "  [3] 100 to 300 users (Heavy load)"
 read -rp "Enter your choice [1-3]: " USAGE_CHOICE
 
 case "$USAGE_CHOICE" in
@@ -148,7 +148,7 @@ quic:
   maxStreamReceiveWindow: 33554432
   initConnReceiveWindow: 33554432
   maxConnReceiveWindow: 67108864
-  maxIdleTimeout: 15s
+  maxIdleTimeout: 20s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
 EOF
@@ -157,18 +157,18 @@ EOF
   3)
     QUIC_SETTINGS=$(cat <<EOF
 quic:
-  initStreamReceiveWindow: 10485760
-  maxStreamReceiveWindow: 25165824
-  initConnReceiveWindow: 20971520
-  maxConnReceiveWindow: 50331648
-  maxIdleTimeout: 15s
+  initStreamReceiveWindow: 33554432
+  maxStreamReceiveWindow: 67108864
+  initConnReceiveWindow: 67108864
+  maxConnReceiveWindow: 134217728
+  maxIdleTimeout: 25s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
 EOF
 )
     ;;
   *)
-    echo "Invalid option. Defaulting to Normal settings."
+    echo "Invalid option. Defaulting to 1-50 users (light load)."
     QUIC_SETTINGS=$(cat <<EOF
 quic:
   initStreamReceiveWindow: 8388608
