@@ -23,23 +23,25 @@ draw_menu() {
   local options=("$@")
 
   GREEN='\e[32m'
-  WHITE='\e[37m'
+  WHITE='\e[97m'
   RESET='\e[0m'
 
-  local width=45
-  local border_top="+$(printf '%0.s-' $(seq 1 $width))+"
-  local border_mid="+$(printf '%0.s-' $(seq 1 $width))+"
+  local width=40
+  local line=""
+  line=$(printf '═%.0s' $(seq 1 $width))
 
-  echo -e "${GREEN}${border_top}${RESET}"
-  printf "${GREEN}| %-*s |\n" $((width - 2)) "${WHITE}${title}${GREEN}"
-  echo -e "${border_mid}${RESET}"
+  echo -e "${GREEN}╔${line}╗${RESET}"
+  printf "${GREEN}║${WHITE} %-${width}s ${GREEN}║\n" "$title"
+  echo -e "${GREEN}╠${line}╣${RESET}"
 
   for opt in "${options[@]}"; do
-    printf "${GREEN}|${WHITE} %s ${GREEN}|\n" "$(printf '%-*s' $((width - 2)) "$opt")"
+    printf "${GREEN}║${WHITE} %-*s ${GREEN}║\n" $width "$opt"
   done
 
-  echo -e "${border_top}${RESET}"
-  echo -ne "${WHITE}Enter your choice: ${RESET}"
+  echo -e "${GREEN}╠${line}╣${RESET}"
+  printf "${GREEN}║${WHITE} %-*s ${GREEN}║\n" $width "Enter your choice:"
+  echo -e "${GREEN}╚${line}╝${RESET}"
+  echo -ne "${WHITE}> ${RESET}"
 }
 
 # ------------------ Initialization ------------------
@@ -78,12 +80,10 @@ sudo mkdir -p /var/log/
 # ------------------ Server Type Menu ------------------
 while true; do
 draw_menu "Server Type Selection" \
-  "1 | Setup Iranian Server" \
-  "2 | Setup Foreign Server" \
-  "3 | Exit"
-
-read -rp "Enter your choice: " SERVER_CHOICE
-
+    "1 | Setup Iranian Server" \
+    "2 | Setup Foreign Server" \
+    "3 | Exit"
+  read -r SERVER_CHOICE
   case "$SERVER_CHOICE" in
     1)
       SERVER_TYPE="iran"
@@ -106,10 +106,10 @@ done
 # ------------------ IP Version Menu (Only for Iran) ------------------
 if [ "$SERVER_TYPE" == "iran" ]; then
   while true; do
- draw_menu "Select IP Version" \
-  "1 | IPv4 (e.g., 0.0.0.0)" \
-  "2 | IPv6 (e.g., [::])"
-read -rp "Enter your choice: " IP_VERSION_CHOICE
+draw_menu "IP Version Selection" \
+      "1 | IPv4" \
+      "2 | IPv6"
+    read -r IP_VERSION_CHOICE
 
 
     case "$IP_VERSION_CHOICE" in
@@ -145,11 +145,11 @@ else
 fi
 
 # ------------------ QUIC Settings Based on Usage ------------------
-draw_menu "QUIC Optimization" \
-  "1 | 1-50 Users  (Light Load)" \
-  "2 | 50-100 Users (Medium Load)" \
-  "3 | 100-300 Users (Heavy Load)"
-read -rp "Enter your choice: " USAGE_CHOICE
+draw_menu "Expected Simultaneous Users" \
+  "1 | 1 to 50 users (Light load)" \
+  "2 | 50 to 100 users (Medium load)" \
+  "3 | 100 to 300 users (Heavy load)"
+read -r USAGE_CHOICE
 
 case "$USAGE_CHOICE" in
   1)
