@@ -16,7 +16,7 @@ colorEcho() {
     *)       echo "$text" ;;
   esac
 }
-# ------------------ draw_box_menu ------------------
+# ------------------ draw_menu ------------------
 draw_menu() {
   local title="$1"
   shift
@@ -77,7 +77,7 @@ sudo mkdir -p /var/log/
 
 # ------------------ Server Type Menu ------------------
 while true; do
-draw_box_menu "Server Type Selection" \
+draw_menu "Server Type Selection" \
   "1 | Setup Iranian Server" \
   "2 | Setup Foreign Server" \
   "3 | Exit"
@@ -106,7 +106,7 @@ done
 # ------------------ IP Version Menu (Only for Iran) ------------------
 if [ "$SERVER_TYPE" == "iran" ]; then
   while true; do
- draw_box_menu "Select IP Version" \
+ draw_menu "Select IP Version" \
   "1 | IPv4 (e.g., 0.0.0.0)" \
   "2 | IPv6 (e.g., [::])"
 read -rp "Enter your choice: " IP_VERSION_CHOICE
@@ -145,7 +145,7 @@ else
 fi
 
 # ------------------ QUIC Settings Based on Usage ------------------
-draw_box_menu "QUIC Optimization" \
+draw_menu "QUIC Optimization" \
   "1 | 1-50 Users  (Light Load)" \
   "2 | 50-100 Users (Medium Load)" \
   "3 | 100-300 Users (Heavy Load)"
