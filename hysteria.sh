@@ -22,25 +22,33 @@ draw_menu() {
   shift
   local options=("$@")
 
-  GREEN='\e[32m'
-  WHITE='\e[97m'
-  RESET='\e[0m'
+  local GREEN='\e[32m'
+  local WHITE='\e[97m'
+  local RESET='\e[0m'
 
-  local width=40
-  local line=""
-  line=$(printf '═%.0s' $(seq 1 $width))
+  local width=42
+  local inner_width=$((width - 2))
+  local line=$(printf "%${inner_width}s" "" | sed "s/ /═/g")
 
-  echo -e "${GREEN}╔${line}╗${RESET}"
-  printf "${GREEN}║${WHITE} %-${width}s ${GREEN}║\n" "$title"
-  echo -e "${GREEN}╠${line}╣${RESET}"
+  local border_top="╔"
+  local border_mid="╠"
+  local border_bottom="╚"
+  local border_side="║"
+  local border_right="╗"
+  local border_mid_right="╣"
+  local border_bottom_right="╝"
+
+  echo -e "${GREEN}${border_top}${line}${border_right}${RESET}"
+  printf "${GREEN}${border_side} ${WHITE}%-*s${GREEN} ${border_side}${RESET}\n" $((inner_width - 2)) "$title"
+  echo -e "${GREEN}${border_mid}${line}${border_mid_right}${RESET}"
 
   for opt in "${options[@]}"; do
-    printf "${GREEN}║${WHITE} %-*s ${GREEN}║\n" $width "$opt"
+    printf "${GREEN}${border_side} ${WHITE}%-*s${GREEN} ${border_side}${RESET}\n" $((inner_width - 2)) "$opt"
   done
 
-  echo -e "${GREEN}╠${line}╣${RESET}"
-  printf "${GREEN}║${WHITE} %-*s ${GREEN}║\n" $width "Enter your choice:"
-  echo -e "${GREEN}╚${line}╝${RESET}"
+  echo -e "${GREEN}${border_mid}${line}${border_mid_right}${RESET}"
+  printf "${GREEN}${border_side} ${GREEN}%-*s${GREEN} ${border_side}${RESET}\n" $((inner_width - 2)) "Enter your choice:"
+  echo -e "${GREEN}${border_bottom}${line}${border_bottom_right}${RESET}"
   echo -ne "${WHITE}> ${RESET}"
 }
 
