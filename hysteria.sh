@@ -333,7 +333,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
     done
 
     read -p "SNI ex.(google.com): " SNI
-    read -p "Total request forwarding ports ex.(1) " PORT_FORWARD_COUNT
+    read -p "How many ports do you have for forwarding? ex.(1) " PORT_FORWARD_COUNT
 
     TCP_FORWARD=""
     UDP_FORWARD=""
