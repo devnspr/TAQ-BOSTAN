@@ -38,8 +38,14 @@ draw_menu() {
   local border_mid_right="╣"
   local border_bottom_right="╝"
 
+  # حساب فاصله‌ها برای وسط‌چین کردن عنوان
+  local title_length=${#title}
+  local padding_left=$(( (inner_width - title_length) / 2 ))
+  local padding_right=$(( inner_width - title_length - padding_left ))
+  local title_line="$(printf "%${padding_left}s" "")${title}$(printf "%${padding_right}s" "")"
+
   echo -e "${GREEN}${border_top}${line}${border_right}${RESET}"
-  printf "${GREEN}${border_side} ${WHITE}%-*s${GREEN} ${border_side}${RESET}\n" $((inner_width - 2)) "$title"
+  echo -e "${GREEN}${border_side}${WHITE}${title_line}${GREEN}${border_side}${RESET}"
   echo -e "${GREEN}${border_mid}${line}${border_mid_right}${RESET}"
 
   for opt in "${options[@]}"; do
