@@ -38,7 +38,6 @@ draw_menu() {
   local border_mid_right="╣"
   local border_bottom_right="╝"
 
-  # حساب فاصله‌ها برای وسط‌چین کردن عنوان
   local title_length=${#title}
   local padding_left=$(( (inner_width - title_length) / 2 ))
   local padding_right=$(( inner_width - title_length - padding_left ))
