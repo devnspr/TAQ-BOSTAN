@@ -286,7 +286,7 @@ EOF
 
   sudo systemctl daemon-reload
   sudo systemctl enable hysteria
-  sudo systemctl start hysteria
+  sudo systemctl restart hysteria
   sudo systemctl reload-or-restart hysteria
   CRON_CMD='0 */4 * * * /usr/bin/systemctl restart hysteria'
   TMP_FILE=$(mktemp)
@@ -393,7 +393,7 @@ EOF
 
     sudo systemctl daemon-reload
     sudo systemctl enable hysteria${i}
-    sudo systemctl start hysteria${i}
+    sudo systemctl restart hysteria${i}
     sudo systemctl reload-or-restart hysteria${i}
     CRON_CMD="0 */5 * * * /usr/bin/systemctl restart hysteria${i}"
     TMP_FILE=$(mktemp)
