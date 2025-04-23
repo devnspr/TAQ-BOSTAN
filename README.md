@@ -196,7 +196,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/scrip
 -  شاتل <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/page-manager/shatel1.png" width="24" />
 -  مبین‌نت <img src="https://client.digitalvps.ir/Logo/MobinNetLog.png" width="24" />
 
-🔹 سرور های مجازی خارج از دیتاسنتر ***Skylink***
+🔹 سرور های مجازی خارج از دیتاسنتر های ***Leaseweb*** و ***Skylink***
 
 - سرور مجازی هلند <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/nilogo.png" width="24" />
 - سرور مجازی آلمان <img src="https://client.digitalvps.ir/templates/lagom2/assets/img/page-manager/GB.svg" width="24" />
