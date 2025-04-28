@@ -80,8 +80,6 @@ if [ -f "/usr/local/bin/hysteria" ]; then
  if ! curl -fsSL "$DOWNLOAD_URL" -o hysteria; then
    colorEcho "Failed to download hysteria binary." red
    exit 1
- colorEcho "Failed to download hysteria binary." red
- exit 1
  fi
  chmod +x hysteria
  sudo mv hysteria /usr/local/bin/
