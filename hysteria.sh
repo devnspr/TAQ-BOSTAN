@@ -86,7 +86,6 @@ if [ -f "/usr/local/bin/hysteria" ]; then
  fi
 sudo mkdir -p /etc/hysteria/
 sudo mkdir -p /var/log/hysteria/
-sudo mkdir -p /var/log/
 
 # ------------------ Server Type Menu ------------------
 while true; do
