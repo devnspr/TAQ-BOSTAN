@@ -85,9 +85,16 @@ if [ -f "/usr/local/bin/hysteria" ]; then
  sudo mv hysteria /usr/local/bin/
  fi
 sudo mkdir -p /etc/hysteria/
+sudo touch /etc/hysteria/port_mapping.txt
 MAPPING_FILE="/etc/hysteria/port_mapping.txt"
 : > "$MAPPING_FILE"
 sudo mkdir -p /var/log/hysteria/
+
+if [ ! -f /etc/hysteria/hysteria-monitor.py ]; then
+  sudo curl -fsSL https://raw.githubusercontent.com/ParsaKSH/TAQ-BOSTAN/main/hysteria-monitor.py \
+    -o /etc/hysteria/hysteria-monitor.py
+  sudo chmod +x /etc/hysteria/hysteria-monitor.py
+fi
 
 # ------------------ Server Type Menu ------------------
 while true; do
@@ -353,7 +360,6 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
       else
         FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
       fi
-      echo "iran-config${i}:$FORWARDED_PORTS" >> "$MAPPING_FILE"
     done
 
     CONFIG_FILE="/etc/hysteria/iran-config${i}.yaml"
@@ -395,6 +401,8 @@ EOF
     sudo systemctl enable hysteria${i}
     sudo systemctl start hysteria${i}
     sudo systemctl reload-or-restart hysteria${i}
+    echo "iran-config${i}.yaml|hysteria${i}|${FORWARDED_PORTS}" \
+    | sudo tee -a "$MAPPING_FILE" > /dev/null
     CRON_CMD="0 */5 * * * /usr/bin/systemctl restart hysteria${i}"
     TMP_FILE=$(mktemp)
 
