@@ -439,7 +439,9 @@ StandardError=file:/var/log/hysteria/monitor.err
 [Install]
 WantedBy=multi-user.target
 EOF
-
+sudo systemctl daemon-reload
+sudo systemctl enable hysteria-monitor
+sudo systemctl start hysteria-monitor
 
 
   colorEcho "Tunnels set up successfully." green
