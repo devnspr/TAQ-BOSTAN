@@ -85,6 +85,8 @@ if [ -f "/usr/local/bin/hysteria" ]; then
  sudo mv hysteria /usr/local/bin/
  fi
 sudo mkdir -p /etc/hysteria/
+MAPPING_FILE="/etc/hysteria/port_mapping.txt"
+: > "$MAPPING_FILE"
 sudo mkdir -p /var/log/hysteria/
 
 # ------------------ Server Type Menu ------------------
@@ -351,6 +353,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
       else
         FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
       fi
+      echo "iran-config${i}:$FORWARDED_PORTS" >> "$MAPPING_FILE"
     done
 
     CONFIG_FILE="/etc/hysteria/iran-config${i}.yaml"
@@ -401,6 +404,18 @@ EOF
     rm -f "$TMP_FILE"
 
   done
+  # ====== Set up per-config iptables counters ======
+while IFS=: read -r cfg ports; do
+  idx="${cfg##*config}"
+  chain="HYST${idx}"
+  iptables -t mangle -N "$chain" 2>/dev/null || iptables -t mangle -F "$chain"
+  IFS=',' read -ra PARR <<< "$ports"
+  for p in "${PARR[@]}"; do
+    iptables -t mangle -A OUTPUT -p tcp --dport "$p" -j "$chain"
+    iptables -t mangle -A OUTPUT -p udp --dport "$p" -j "$chain"
+  done
+done < "$MAPPING_FILE"
+
 
   colorEcho "Tunnels set up successfully." green
 else
