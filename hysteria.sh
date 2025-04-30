@@ -423,6 +423,23 @@ while IFS=: read -r cfg ports; do
     iptables -t mangle -A OUTPUT -p udp --dport "$p" -j "$chain"
   done
 done < "$MAPPING_FILE"
+sudo tee /etc/systemd/system/hysteria-monitor.service > /dev/null <<'EOF'
+[Unit]
+Description=Hysteria Monitor Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /etc/hysteria/hysteria-monitor.py
+Restart=always
+RestartSec=10
+StandardOutput=file:/var/log/hysteria/monitor.log
+StandardError=file:/var/log/hysteria/monitor.err
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 
 
   colorEcho "Tunnels set up successfully." green
