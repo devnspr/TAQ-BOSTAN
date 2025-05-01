@@ -358,7 +358,7 @@ elif [ "$SERVER_TYPE" == "iran" ]; then
       if [ -z "$FORWARDED_PORTS" ]; then
         FORWARDED_PORTS="$TUNNEL_PORT"
       else
-        FORWARDED_PORTS="$FORWARDED_PORTS, $TUNNEL_PORT"
+        FORWARDED_PORTS="$FORWARDED_PORTS,$TUNNEL_PORT"
       fi
     done
 
@@ -417,9 +417,7 @@ while IFS='|' read -r cfg service ports; do
   idx="${cfg##*config}"      # => "1.yaml"
   idx="${idx%%.*}"           # => "1"
   chain="HYST${idx}"         # => "HYST1"
-  # ایجاد یا خالی کردن chain
   sudo iptables -t mangle -N "$chain" 2>/dev/null || sudo iptables -t mangle -F "$chain"
-  # بریک کردن پورت‌ها و اضافه کردن rule
   IFS=',' read -ra PARR <<< "$ports"
   for p in "${PARR[@]}"; do
     sudo iptables -t mangle -A OUTPUT -p tcp --dport "$p" -j "$chain"
