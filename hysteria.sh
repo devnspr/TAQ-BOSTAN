@@ -412,17 +412,21 @@ EOF
     rm -f "$TMP_FILE"
 
   done
-  # ====== Set up per-config iptables counters ======
-while IFS=: read -r cfg ports; do
-  idx="${cfg##*config}"
-  chain="HYST${idx}"
-  iptables -t mangle -N "$chain" 2>/dev/null || iptables -t mangle -F "$chain"
+# ====== Set up per-config iptables counters ======
+while IFS='|' read -r cfg service ports; do
+  idx="${cfg##*config}"      # => "1.yaml"
+  idx="${idx%%.*}"           # => "1"
+  chain="HYST${idx}"         # => "HYST1"
+  # ایجاد یا خالی کردن chain
+  sudo iptables -t mangle -N "$chain" 2>/dev/null || sudo iptables -t mangle -F "$chain"
+  # بریک کردن پورت‌ها و اضافه کردن rule
   IFS=',' read -ra PARR <<< "$ports"
   for p in "${PARR[@]}"; do
-    iptables -t mangle -A OUTPUT -p tcp --dport "$p" -j "$chain"
-    iptables -t mangle -A OUTPUT -p udp --dport "$p" -j "$chain"
+    sudo iptables -t mangle -A OUTPUT -p tcp --dport "$p" -j "$chain"
+    sudo iptables -t mangle -A OUTPUT -p udp --dport "$p" -j "$chain"
   done
 done < "$MAPPING_FILE"
+
 sudo tee /etc/systemd/system/hysteria-monitor.service > /dev/null <<'EOF'
 [Unit]
 Description=Hysteria Monitor Service
