@@ -287,7 +287,7 @@ Good luck on your journey! 🚀✨
 
 
 ![image](https://github.com/user-attachments/assets/f9f4e79a-0dd4-47ca-862a-8af8504a355a)
-Iran, Kermanshah
+Taq-Bostan, Sassanid period petroglyph from the 3rd century AD (Iran, Kermanshah)
 
 
 [![Stargazers over time](https://starchart.cc/ParsaKSH/TAQ-BOSTAN.svg?background=%23333333&axis=%23ffffff&line=%2329f400)](https://starchart.cc/ParsaKSH/TAQ-BOSTAN)
