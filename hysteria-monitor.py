@@ -3,10 +3,14 @@ import subprocess
 import time
 
 MAPPING_FILE = "/etc/hysteria/port_mapping.txt"
-INTERVAL = 40  
-THRESHOLD_DROP = 0.5 
+INTERVAL = 40
+THRESHOLD_DROP = 0.5
 
 def get_bytes(chain):
+    """
+    Reads the packet byte-counter for the given iptables chain
+    in the mangle table and returns the number of bytes.
+    """
     out = subprocess.check_output(
         ["iptables", "-t", "mangle", "-L", chain, "-vxn"]
     ).decode()
@@ -25,7 +29,7 @@ def main():
             if len(parts) != 3:
                 continue
             cfg, service, ports = parts
-            idx = cfg.split("config")[-1]
+            idx = cfg.split("config")[-1].split(".")[0]
             try:
                 old[idx] = get_bytes(f"HYST{idx}")
             except subprocess.CalledProcessError:
@@ -42,7 +46,7 @@ def main():
                 if len(parts) != 3:
                     continue
                 cfg, service, ports = parts
-                idx = cfg.split("config")[-1]
+                idx = cfg.split("config")[-1].split(".")[0]
                 chain = f"HYST{idx}"
                 try:
                     new = get_bytes(chain)
