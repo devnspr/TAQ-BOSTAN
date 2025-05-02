@@ -80,9 +80,8 @@ execute_option() {
         sudo systemctl disable hysteria 2>/dev/null
       done
       sudo rm /etc/hysteria/server-config.yaml 2>/dev/null
-      for i in {1..8}; do
-      sudo rm /etc/hysteria/iran-config$i.yaml 2>/dev/null
-      done
+      sudo rm /etc/hysteria/iran-config*.yaml 2>/dev/null
+      rm /etc/hysteria/hysteria-mapping.txt
       echo -e "${GREEN}Hysteria tunnel successfully deleted.${RESET}"
       read -p "Do you want to reboot now? [y/N]: " REBOOT_CHOICE
       if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
