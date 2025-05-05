@@ -3,7 +3,7 @@ import subprocess
 import time
 
 MAPPING_FILE   = "/etc/hysteria/port_mapping.txt"
-INTERVAL       = 40    
+INTERVAL       = 20   
 THRESHOLD_DROP = 0.5  
 
 def get_bytes(chain: str) -> int:
