@@ -478,7 +478,7 @@ EOF
   sudo systemctl enable hysteria
   sudo systemctl start hysteria
   sudo systemctl reload-or-restart hysteria
-  CRON_CMD='0 */4 * * * /usr/bin/systemctl restart hysteria'
+  CRON_CMD='0 4 * * * /usr/bin/systemctl restart hysteria'
   TMP_FILE=$(mktemp)
 
   crontab -l 2>/dev/null | grep -vF "$CRON_CMD" > "$TMP_FILE" || true
@@ -591,13 +591,6 @@ EOF
 
     echo "iran-config${i}.yaml|hysteria${i}|${FORWARDED_PORTS}" \
     | sudo tee -a "$MAPPING_FILE" > /dev/null
-    CRON_CMD="0 */5 * * * /usr/bin/systemctl restart hysteria${i}"
-    TMP_FILE=$(mktemp)
-    crontab -l 2>/dev/null | grep -vF "$CRON_CMD" > "$TMP_FILE" || true
-    echo "$CRON_CMD" >> "$TMP_FILE"
-    crontab "$TMP_FILE"
-    rm -f "$TMP_FILE"
-
     colorEcho "Tunnel $i setup completed." green
   done
 # ====== Set up per-config iptables counters ======
