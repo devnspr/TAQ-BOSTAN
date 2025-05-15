@@ -358,10 +358,10 @@ case "$USAGE_CHOICE" in
   1)
     QUIC_SETTINGS=$(cat <<EOF
 quic:
-  initStreamReceiveWindow: 8388608
-  maxStreamReceiveWindow: 16777216
-  initConnReceiveWindow: 16777216
-  maxConnReceiveWindow: 33554432
+  initStreamReceiveWindow: 25165824
+  maxStreamReceiveWindow: 50331648
+  initConnReceiveWindow: 50331648
+  maxConnReceiveWindow: 100663296
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
@@ -371,10 +371,10 @@ EOF
   2)
     QUIC_SETTINGS=$(cat <<EOF
 quic:
-  initStreamReceiveWindow: 16777216
-  maxStreamReceiveWindow: 33554432
-  initConnReceiveWindow: 33554432
-  maxConnReceiveWindow: 67108864
+  initStreamReceiveWindow: 50331648
+  maxStreamReceiveWindow: 100663296
+  initConnReceiveWindow: 100663296
+  maxConnReceiveWindow: 201326592
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
@@ -384,10 +384,10 @@ EOF
   3)
     QUIC_SETTINGS=$(cat <<EOF
 quic:
-  initStreamReceiveWindow: 33554432
-  maxStreamReceiveWindow: 67108864
-  initConnReceiveWindow: 67108864
-  maxConnReceiveWindow: 134217728
+  initStreamReceiveWindow: 100663296
+  maxStreamReceiveWindow: 201326592
+  initConnReceiveWindow: 201326592
+  maxConnReceiveWindow: 402653184
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
@@ -398,10 +398,10 @@ EOF
     echo "Invalid option. Defaulting to 1-50 users (light load)."
     QUIC_SETTINGS=$(cat <<EOF
 quic:
-  initStreamReceiveWindow: 8388608
-  maxStreamReceiveWindow: 16777216
-  initConnReceiveWindow: 16777216
-  maxConnReceiveWindow: 33554432
+  initStreamReceiveWindow: 25165824
+  maxStreamReceiveWindow: 50331648
+  initConnReceiveWindow: 50331648
+  maxConnReceiveWindow: 100663296
   maxIdleTimeout: 15s
   keepAliveInterval: 10s
   disablePathMTUDiscovery: false
